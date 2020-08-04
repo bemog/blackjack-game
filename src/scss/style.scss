@@ -71,6 +71,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 
     &-one {
       grid-column-start: 2;
@@ -112,4 +113,9 @@ body {
   &__result {
     display: none;
   }
+}
+
+.control-panel {
+  margin-top: 20px;
+  text-align: center;
 }

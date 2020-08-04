@@ -16,10 +16,16 @@
             Press button to start new game
           </h2>
           <div class="start-screen__info-control">
-            <button class="start-screen__info-control-button">
+            <button
+              class="start-screen__info-control-button"
+              id="btn-singleplayer"
+            >
               Singleplayer
             </button>
-            <button class="start-screen__info-control-button">
+            <button
+              class="start-screen__info-control-button"
+              id="btn-multiplayer"
+            >
               Multiplayer
             </button>
           </div>
@@ -51,10 +57,17 @@
           <div class="game__card-pool-cards"></div>
         </div>
         <div class="game__result">
-          <span class="game__result-text"
-            >The winner is player x with yy points</span
-          >
+          <span class="game__result-text">
+            The winner is player x with yy points
+          </span>
         </div>
+      </div>
+      <div class="control-panel">
+        <button class="control-panel__button-get" id="btn-get">Get Card</button>
+        <button class="controls-panel__button-pass" id="btn-pass">Pass</button>
+        <button class="start-screen__info-control-button" id="btn-start">
+          Start
+        </button>
       </div>
     </div>
     <script src="./js/index.js"></script>
