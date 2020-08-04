@@ -1,14 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Blackjack game</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blackjack game</title>
-</head>
-
-<body>
-
-</body>
-
+  <body>
+    <div class="wrapper">
+      <div class="start-screen start-screen--hide">
+        <h1 class="start-screen__title">Blackjack</h1>
+        <h2 class="start-screen__info">Press button to start new game</h2>
+        <button class="start-screen__button">Singleplayer</button>
+        <button class="start-screen__button">Multiplayer</button>
+      </div>
+      <div class="game">
+        <div class="game__player-panel">
+          <h3 class="game__player-panel-name">Player 1</h3>
+          <div class="game__player-panel-cards"></div>
+          <span class="game__player-panel-score"></span>
+        </div>
+        <div class="game__player-panel">
+          <h3 class="game__player-panel-name">Player 2</h3>
+          <div class="game__player-panel-cards"></div>
+          <span class="game__player-panel-score"></span>
+        </div>
+        <div class="game__player-panel">
+          <h3 class="game__player-panel-name">Player 3</h3>
+          <div class="game__player-panel-cards"></div>
+          <span class="game__player-panel-score"></span>
+        </div>
+        <div class="game__player-panel">
+          <h3 class="game__player-panel-name">Player 4</h3>
+          <div class="game__player-panel-cards"></div>
+          <span class="game__player-panel-score"></span>
+        </div>
+        <div class="game__card-pool">
+          <h3 class="game__card-pool-title">Card pool</h3>
+          <div class="game__card-pool-cards"></div>
+        </div>
+        <div class="game__result">
+          <span class="game__result-text"
+            >The winner is player x with yy points</span
+          >
+        </div>
+      </div>
+    </div>
+    <script src="./js/index.js"></script>
+  </body>
 </html>
