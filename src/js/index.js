@@ -13,7 +13,9 @@ const cards1 = document.getElementById("cards-1");
 const cards2 = document.getElementById("cards-2");
 const cards3 = document.getElementById("cards-3");
 
-let scores, activePlayer, gamePlaying, cardsDeckId;
+let cardsDeckId;
+let players = [];
+let activePlayer = 0;
 
 // Get new cards deck id from API
 const getNewCardsDeck = async () => {
@@ -29,9 +31,46 @@ const getNewCardsDeck = async () => {
 };
 
 // Check score
+const checkScore = () => {
+  players.forEach((player, index) => {
+    if (player.score > 21) {
+      player.inGame = false;
+      document
+        .getElementById(`cards-${index}`)
+        .parentElement.classList.add("game__player--lost");
+    } else if (player.score === 21) {
+      document
+        .getElementById(`cards-${index}`)
+        .parentElement.classList.add("game__player--win");
+    }
+  });
+};
+
+// Set active player
+const setActivePlayer = () => {
+  activePlayer++;
+  if (activePlayer === players.length) {
+    activePlayer = 0;
+  }
+  if (!players[activePlayer].inGame) {
+    activePlayer++;
+  }
+
+  // Set class active
+  players.forEach((item, index) => {
+    document
+      .getElementById(`cards-${index}`)
+      .parentElement.classList.remove("game__player--active");
+  });
+  document
+    .getElementById(`cards-${activePlayer}`)
+    .parentElement.classList.add("game__player--active");
+
+  console.log(activePlayer);
+};
 
 // Pull one card from deck
-const pullOneCard = async (player) => {
+const pullOneCard = async (id) => {
   fetch(`https://deckofcardsapi.com/api/deck/${cardsDeckId}/draw/?count=1`)
     .then((response) => response.json())
     .then((data) => {
@@ -53,59 +92,66 @@ const pullOneCard = async (player) => {
           points = parseInt(data.cards[0].value);
       }
       // Update player score
-      players[player].score += points;
+      const index = players.findIndex((player) => player.id === id);
+      players[index].score += points;
       // Update player panel DOM
-      document.getElementById(`score-${player}`).textContent =
-        players[player].score;
-      document.getElementById(`cards-${player}`).innerHTML += `
+      document.getElementById(`score-${id}`).textContent = players[index].score;
+      document.getElementById(`cards-${id}`).innerHTML += `
         <img class="game__player-cards-image" src=${data.cards[0].image} alt="${data.cards[0].suit} ${data.cards[0].value}"/>`;
+
+      checkScore();
+      setActivePlayer();
     });
 };
 
 // Pull two starting cards for every player
-const pullTwoCards = () => {
-  for (i = 0; i < players.length; i++) {
-    pullOneCard(i);
-  }
+const pullStartCards = () => {
+  players.forEach((player) => {
+    pullOneCard(player.id);
+  });
 };
 
 // Start new game
 const startNewGame = async () => {
   players = [
     {
+      id: 0,
       name: "Player 1",
       control: "human",
       score: 0,
       inGame: true,
-      active: true,
+      pass: false,
     },
     {
+      id: 1,
       name: "Player 2",
       control: "cpu",
       score: 0,
       inGame: true,
-      active: false,
+      pass: false,
     },
     {
+      id: 2,
       name: "Player 3",
       control: "cpu",
       score: 0,
       inGame: true,
-      active: false,
+      pass: false,
     },
     {
+      id: 3,
       name: "Player 4",
       control: "cpu",
       score: 0,
       inGame: true,
-      active: false,
+      pass: false,
     },
   ];
 
   cardsDeckId = await getNewCardsDeck();
 
-  pullTwoCards();
-  pullTwoCards();
+  pullStartCards();
+  pullStartCards();
 };
 
 // Event listeners
@@ -118,7 +164,7 @@ btnMulti.addEventListener("click", () => {
 });
 
 btnGetCard.addEventListener("click", () => {
-  console.log("btnGetCard");
+  pullOneCard(activePlayer);
 });
 
 btnPass.addEventListener("click", () => {
