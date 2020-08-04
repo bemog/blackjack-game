@@ -4,14 +4,6 @@ const btnGetCard = document.getElementById("btn-get");
 const btnPass = document.getElementById("btn-pass");
 const btnStart = document.getElementById("btn-start");
 const cardPool = document.getElementById("card-pool");
-const score0 = document.getElementById("score-0");
-const score1 = document.getElementById("score-1");
-const score2 = document.getElementById("score-2");
-const score3 = document.getElementById("score-3");
-const cards0 = document.getElementById("cards-0");
-const cards1 = document.getElementById("cards-1");
-const cards2 = document.getElementById("cards-2");
-const cards3 = document.getElementById("cards-3");
 
 let cardsDeckId;
 let players = [];
@@ -32,29 +24,30 @@ const getNewCardsDeck = async () => {
 
 // Check score
 const checkScore = () => {
-  players.forEach((player, index) => {
-    if (player.score > 21) {
-      player.inGame = false;
-      document
-        .getElementById(`cards-${index}`)
-        .parentElement.classList.add("game__player--lost");
-    } else if (player.score === 21) {
-      document
-        .getElementById(`cards-${index}`)
-        .parentElement.classList.add("game__player--win");
-    }
-  });
+  if (players[activePlayer].score > 21) {
+    players[activePlayer].inGame = false;
+    document
+      .getElementById(`cards-${activePlayer}`)
+      .parentElement.classList.add("game__player--lost");
+    setActivePlayer();
+  } else if (players[activePlayer].score === 21) {
+    document
+      .getElementById(`cards-${activePlayer}`)
+      .parentElement.classList.add("game__player--win");
+  }
+};
+
+// Game finish
+const gameFinish = () => {
+  console.log("koniec gry!");
 };
 
 // Set active player
 const setActivePlayer = () => {
   activePlayer++;
-  if (activePlayer === players.length) {
-    activePlayer = 0;
-  }
-  if (!players[activePlayer].inGame) {
-    do activePlayer++;
-    while (!players[activePlayer].inGame);
+
+  if (activePlayer > players.length) {
+    gameFinish();
   }
 
   // Set class active
@@ -67,11 +60,11 @@ const setActivePlayer = () => {
     .getElementById(`cards-${activePlayer}`)
     .parentElement.classList.add("game__player--active");
 
-  console.log(activePlayer);
+  pullStartCards();
 };
 
 // Pull one card from deck
-const pullOneCard = async (id) => {
+const pullOneCard = async () => {
   fetch(`https://deckofcardsapi.com/api/deck/${cardsDeckId}/draw/?count=1`)
     .then((response) => response.json())
     .then((data) => {
@@ -93,65 +86,60 @@ const pullOneCard = async (id) => {
           points = parseInt(data.cards[0].value);
       }
       // Update player score
-      const index = players.findIndex((player) => player.id === id);
-      players[index].score += points;
+      players[activePlayer].score += points;
       // Update player panel DOM
-      document.getElementById(`score-${id}`).textContent = players[index].score;
-      document.getElementById(`cards-${id}`).innerHTML += `
+      document.getElementById(`score-${activePlayer}`).textContent =
+        players[activePlayer].score;
+      document.getElementById(`cards-${activePlayer}`).innerHTML += `
         <img class="game__player-cards-image" src=${data.cards[0].image} alt="${data.cards[0].suit} ${data.cards[0].value}"/>`;
 
       checkScore();
-      setActivePlayer();
     });
 };
 
 // Pull two starting cards for every player
 const pullStartCards = () => {
-  players.forEach((player) => {
-    pullOneCard(player.id);
-  });
+  if (players[activePlayer].score === 0) {
+    pullOneCard(activePlayer);
+    pullOneCard(activePlayer);
+  }
 };
 
 // Start new game
 const startNewGame = async () => {
   players = [
     {
-      id: 0,
       name: "Player 1",
       control: "human",
       score: 0,
       inGame: true,
-      pass: false,
     },
     {
-      id: 1,
       name: "Player 2",
       control: "cpu",
       score: 0,
       inGame: true,
-      pass: false,
     },
     {
-      id: 2,
       name: "Player 3",
       control: "cpu",
       score: 0,
       inGame: true,
-      pass: false,
     },
     {
-      id: 3,
       name: "Player 4",
       control: "cpu",
       score: 0,
       inGame: true,
-      pass: false,
     },
   ];
 
   cardsDeckId = await getNewCardsDeck();
 
-  pullStartCards();
+  document
+    .getElementById(`cards-${activePlayer}`)
+    .parentElement.classList.add("game__player--active");
+
   pullStartCards();
 };
 
