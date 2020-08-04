@@ -111,6 +111,10 @@ body {
       border: 1px solid green;
     }
 
+    &--pass {
+      border: 1px solid orange;
+    }
+
     &--lost {
       opacity: 0.3;
     }

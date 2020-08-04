@@ -98,6 +98,8 @@ body {
       height: 100px; }
     .game__player--active {
       border: 1px solid green; }
+    .game__player--pass {
+      border: 1px solid orange; }
     .game__player--lost {
       opacity: 0.3; }
   .game__card-pool {

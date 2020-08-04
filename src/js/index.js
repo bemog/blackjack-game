@@ -53,7 +53,8 @@ const setActivePlayer = () => {
     activePlayer = 0;
   }
   if (!players[activePlayer].inGame) {
-    activePlayer++;
+    do activePlayer++;
+    while (!players[activePlayer].inGame);
   }
 
   // Set class active
@@ -168,11 +169,16 @@ btnGetCard.addEventListener("click", () => {
 });
 
 btnPass.addEventListener("click", () => {
-  console.log("btnPass");
+  players[activePlayer].pass = true;
+  document
+    .getElementById(`cards-${activePlayer}`)
+    .parentElement.classList.add("game__player--pass");
+  players[activePlayer].inGame = false;
+  setActivePlayer();
 });
 
 btnStart.addEventListener("click", startNewGame);
 
 cardPool.addEventListener("click", () => {
-  console.log("card-pool");
+  pullOneCard(activePlayer);
 });
