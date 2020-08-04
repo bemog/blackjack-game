@@ -8,33 +8,43 @@
   </head>
 
   <body>
+    <h1 class="title">Blackjack</h1>
     <div class="wrapper">
       <div class="start-screen start-screen--hide">
-        <h1 class="start-screen__title">Blackjack</h1>
-        <h2 class="start-screen__info">Press button to start new game</h2>
-        <button class="start-screen__button">Singleplayer</button>
-        <button class="start-screen__button">Multiplayer</button>
+        <div class="start-screen__info">
+          <h2 class="start-screen__info-text">
+            Press button to start new game
+          </h2>
+          <div class="start-screen__info-control">
+            <button class="start-screen__info-control-button">
+              Singleplayer
+            </button>
+            <button class="start-screen__info-control-button">
+              Multiplayer
+            </button>
+          </div>
+        </div>
       </div>
       <div class="game">
-        <div class="game__player-panel">
-          <h3 class="game__player-panel-name">Player 1</h3>
-          <div class="game__player-panel-cards"></div>
-          <span class="game__player-panel-score"></span>
+        <div class="game__player game__player-one">
+          <h3 class="game__player name">Player 1</h3>
+          <div class="game__player cards"></div>
+          <span class="game__player score"></span>
         </div>
-        <div class="game__player-panel">
-          <h3 class="game__player-panel-name">Player 2</h3>
-          <div class="game__player-panel-cards"></div>
-          <span class="game__player-panel-score"></span>
+        <div class="game__player game__player-two">
+          <h3 class="game__player name">Player 2</h3>
+          <div class="game__player cards"></div>
+          <span class="game__player score"></span>
         </div>
-        <div class="game__player-panel">
-          <h3 class="game__player-panel-name">Player 3</h3>
-          <div class="game__player-panel-cards"></div>
-          <span class="game__player-panel-score"></span>
+        <div class="game__player game__player-three">
+          <h3 class="game__player name">Player 3</h3>
+          <div class="game__player cards"></div>
+          <span class="game__player score"></span>
         </div>
-        <div class="game__player-panel">
-          <h3 class="game__player-panel-name">Player 4</h3>
-          <div class="game__player-panel-cards"></div>
-          <span class="game__player-panel-score"></span>
+        <div class="game__player game__player-four">
+          <h3 class="game__player name">Player 4</h3>
+          <div class="game__player cards"></div>
+          <span class="game__player score"></span>
         </div>
         <div class="game__card-pool">
           <h3 class="game__card-pool-title">Card pool</h3>

@@ -6,3 +6,98 @@
 
 body {
   font-family: "Roboto"; }
+
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer; }
+
+button:focus {
+  outline: none; }
+
+body {
+  min-height: 100vh;
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; }
+
+.wrapper {
+  height: 700px;
+  width: 800px;
+  border: 1px solid black; }
+
+.start-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #1e1e26;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .start-screen--hide {
+    display: none; }
+  .start-screen__info {
+    padding: 20px;
+    height: 400px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #54bf8d;
+    border: 1px solid black;
+    border-radius: 10px; }
+    .start-screen__info-text {
+      margin-bottom: 20px;
+      color: #333; }
+    .start-screen__info-control {
+      height: 100%;
+      width: 100%;
+      text-align: center; }
+      .start-screen__info-control-button {
+        margin: 20px 30px; }
+
+.game {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr); }
+  .game__player {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+    .game__player-one {
+      grid-column-start: 2;
+      grid-column-end: 2;
+      grid-row-start: 3;
+      grid-row-end: 3; }
+    .game__player-two {
+      grid-column-start: 3;
+      grid-column-end: 3;
+      grid-row-start: 2;
+      grid-row-end: 2; }
+    .game__player-three {
+      grid-column-start: 2;
+      grid-column-end: 2;
+      grid-row-start: 1;
+      grid-row-end: 1; }
+    .game__player-four {
+      grid-column-start: 1;
+      grid-column-end: 1;
+      grid-row-start: 2;
+      grid-row-end: 2; }
+  .game__card-pool {
+    grid-column-start: 2;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 2;
+    text-align: center; }
+  .game__result {
+    display: none; }

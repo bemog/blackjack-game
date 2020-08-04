@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 
+$primary-color: #54bf8d;
+$secondary-color: #f2d027;
+$tertiary-color: #1e1e26;
+
 * {
   margin: 0;
   padding: 0;
@@ -8,4 +12,15 @@
 
 body {
   font-family: "Roboto";
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:focus {
+  outline: none;
 }
