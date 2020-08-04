@@ -28,6 +28,8 @@ const getNewCardsDeck = async () => {
   return cardsDeckId;
 };
 
+// Check score
+
 // Pull one card from deck
 const pullOneCard = async (player) => {
   fetch(`https://deckofcardsapi.com/api/deck/${cardsDeckId}/draw/?count=1`)
@@ -51,9 +53,10 @@ const pullOneCard = async (player) => {
           points = parseInt(data.cards[0].value);
       }
       // Update player score
-      scores[player] += points;
+      players[player].score += points;
       // Update player panel DOM
-      document.getElementById(`score-${player}`).textContent = scores[player];
+      document.getElementById(`score-${player}`).textContent =
+        players[player].score;
       document.getElementById(`cards-${player}`).innerHTML += `
         <img class="game__player-cards-image" src=${data.cards[0].image} alt="${data.cards[0].suit} ${data.cards[0].value}"/>`;
     });
@@ -68,10 +71,37 @@ const pullTwoCards = () => {
 
 // Start new game
 const startNewGame = async () => {
-  players = ["human", "cpu", "cpu", "cpu"];
-  scores = [0, 0, 0, 0];
-  activePlayer = 0;
-  gamePlaying = true;
+  players = [
+    {
+      name: "Player 1",
+      control: "human",
+      score: 0,
+      inGame: true,
+      active: true,
+    },
+    {
+      name: "Player 2",
+      control: "cpu",
+      score: 0,
+      inGame: true,
+      active: false,
+    },
+    {
+      name: "Player 3",
+      control: "cpu",
+      score: 0,
+      inGame: true,
+      active: false,
+    },
+    {
+      name: "Player 4",
+      control: "cpu",
+      score: 0,
+      inGame: true,
+      active: false,
+    },
+  ];
+
   cardsDeckId = await getNewCardsDeck();
 
   pullTwoCards();
