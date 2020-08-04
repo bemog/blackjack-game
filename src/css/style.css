@@ -94,12 +94,17 @@ body {
       grid-column-end: 1;
       grid-row-start: 2;
       grid-row-end: 2; }
+    .game__player-cards-image {
+      height: 100px; }
   .game__card-pool {
     grid-column-start: 2;
     grid-column-end: 2;
     grid-row-start: 2;
     grid-row-end: 2;
     text-align: center; }
+    .game__card-pool-image {
+      height: 150px;
+      cursor: pointer; }
   .game__result {
     display: none; }
 
