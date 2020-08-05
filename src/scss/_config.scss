@@ -15,9 +15,12 @@ body {
 }
 
 button {
-  padding: 10px 15px;
-  border: none;
+  padding: 7px 15px;
+  background-color: transparent;
+  border: 1px solid white;
   border-radius: 5px;
+  color: white;
+  font-size: 0.9rem;
   cursor: pointer;
 }
 

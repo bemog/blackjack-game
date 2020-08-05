@@ -1,10 +1,9 @@
 const btnSingle = document.getElementById("btn-singleplayer");
 const btnMulti = document.getElementById("btn-multiplayer");
-const btnGetCard = document.getElementById("btn-get");
 const btnPass = document.getElementById("btn-pass");
 const btnStart = document.getElementById("btn-start");
 const btnRestart = document.getElementById("btn-restart");
-const cardPool = document.getElementById("card-pool");
+const cardsPool = document.getElementById("cards-pool");
 
 let cardsDeckId;
 let players = [];
@@ -118,11 +117,11 @@ const pullStartCards = () => {
   }
 };
 
-// Clear UI
+// Clear UI when restart
 const clearDOM = () => {
   for (i = 0; i < players.length; i++) {
-    let classNumber = i;
-    switch (classNumber) {
+    let classNumber;
+    switch (i) {
       case 0:
         classNumber = "one";
         break;
@@ -179,21 +178,29 @@ const startNewGame = async () => {
     },
   ];
 
-  // Set active player to first player
-  activePlayer = 0;
-
   // Clear UI before start new game
   clearDOM();
 
-  // Get cards deck number from API
-  cardsDeckId = await getNewCardsDeck();
-
-  // Set first player class active
+  // Set first player active
+  activePlayer = 0;
   document
     .getElementById(`cards-${activePlayer}`)
     .parentElement.classList.add("game__player--active");
 
+  // Get cards deck number from API
+  cardsDeckId = await getNewCardsDeck();
+
   pullStartCards();
+};
+
+// Player pass
+const playerPass = () => {
+  document
+    .getElementById(`cards-${activePlayer}`)
+    .parentElement.classList.add("game__player--pass");
+  players[activePlayer].inGame = false;
+  document.getElementById(`status-${activePlayer}`).textContent = "Passed";
+  setActivePlayer();
 };
 
 // Event listeners
@@ -205,18 +212,7 @@ btnMulti.addEventListener("click", () => {
   console.log("multi");
 });
 
-btnGetCard.addEventListener("click", () => {
-  pullOneCard(activePlayer);
-});
-
-btnPass.addEventListener("click", () => {
-  document
-    .getElementById(`cards-${activePlayer}`)
-    .parentElement.classList.add("game__player--pass");
-  players[activePlayer].inGame = false;
-  document.getElementById(`status-${activePlayer}`).textContent = "Passed";
-  setActivePlayer();
-});
+btnPass.addEventListener("click", playerPass);
 
 btnStart.addEventListener("click", startNewGame);
 
@@ -225,6 +221,6 @@ btnRestart.addEventListener("click", () => {
   startNewGame();
 });
 
-cardPool.addEventListener("click", () => {
+cardsPool.addEventListener("click", () => {
   pullOneCard(activePlayer);
 });
