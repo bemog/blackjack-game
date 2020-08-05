@@ -39,7 +39,7 @@ const checkScore = () => {
 
 // Game finish
 const gameFinish = () => {
-  console.log("koniec gry!");
+  console.log("Game is finished!");
 };
 
 // Set active player
@@ -88,8 +88,9 @@ const pullOneCard = async () => {
       // Update player score
       players[activePlayer].score += points;
       // Update player panel DOM
-      document.getElementById(`score-${activePlayer}`).textContent =
-        players[activePlayer].score;
+      document.getElementById(
+        `score-${activePlayer}`
+      ).textContent = `Points: ${players[activePlayer].score}/21`;
       document.getElementById(`cards-${activePlayer}`).innerHTML += `
         <img class="game__player-cards-image" src=${data.cards[0].image} alt="${data.cards[0].suit} ${data.cards[0].value}"/>`;
 

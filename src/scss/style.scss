@@ -5,14 +5,34 @@ body {
   min-width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  background-image: url(../image/background.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+
+  &::after {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: -1;
+  }
+}
+
+.title {
+  margin: 15px 0;
 }
 
 .wrapper {
-  height: 700px;
-  width: 800px;
-  border: 1px solid black;
+  padding: 10px;
+  height: 800px;
+  max-width: 900px;
+  width: 90%;
+  background-color: rgba(20, 130, 59, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 0 10px 2px black;
 }
 
 .start-screen {
@@ -62,7 +82,7 @@ body {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-rows: 1fr 1.2fr 1fr;
   grid-template-columns: repeat(3, 1fr);
 
   &__player {
@@ -74,8 +94,8 @@ body {
     justify-content: center;
 
     &-one {
-      grid-column-start: 2;
-      grid-column-end: 2;
+      grid-column-start: 1;
+      grid-column-end: 4;
       grid-row-start: 3;
       grid-row-end: 3;
     }
@@ -88,8 +108,8 @@ body {
     }
 
     &-three {
-      grid-column-start: 2;
-      grid-column-end: 2;
+      grid-column-start: 1;
+      grid-column-end: 4;
       grid-row-start: 1;
       grid-row-end: 1;
     }
@@ -102,21 +122,44 @@ body {
     }
 
     &-cards {
+      margin: 10px;
+      min-height: 110px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
       &-image {
+        margin: 2px;
         height: 100px;
+        box-shadow: 0 0 10px 0 black;
+      }
+    }
+
+    &-name {
+      position: relative;
+      &::after {
+        content: "";
+        position: absolute;
+        top: 4px;
+        right: -25px;
+        height: 15px;
+        width: 15px;
+        background-color: #777;
+        border-radius: 50%;
       }
     }
 
     &--active {
-      border: 1px solid green;
-    }
-
-    &--pass {
-      border: 1px solid orange;
+      .game__player-name::after {
+        background-color: yellowgreen;
+        animation: blink 1s linear infinite;
+      }
     }
 
     &--lost {
       opacity: 0.3;
+      .game__player-name::after {
+        background-color: red;
+      }
     }
   }
 
@@ -131,7 +174,7 @@ body {
     align-items: center;
 
     &-image {
-      height: 150px;
+      height: 100px;
       cursor: pointer;
     }
   }
@@ -142,6 +185,24 @@ body {
 }
 
 .control-panel {
-  margin-top: 20px;
+  margin-top: 15px;
   text-align: center;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  60% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
