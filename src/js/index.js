@@ -7,6 +7,8 @@ const cardsPool = document.getElementById("cards-pool");
 
 let cardsDeckId;
 let players = [];
+let playersLost = 0;
+let playersPassed = 0;
 let activePlayer;
 
 // Get new cards deck id from API
@@ -24,25 +26,50 @@ const getNewCardsDeck = async () => {
 
 // Check score
 const checkScore = () => {
-  if (players[activePlayer].score > 21) {
+  if (
+    players[activePlayer].score === 22 &&
+    players[activePlayer].cardsNum === 2
+  ) {
+    gameFinish(players[activePlayer].name, "Double Ace!");
+  } else if (players[activePlayer].score === 21) {
+    gameFinish(players[activePlayer].name, "Blackjack!");
+  } else if (players[activePlayer].score > 21) {
     players[activePlayer].inGame = false;
+    playersLost++;
     document
       .getElementById(`cards-${activePlayer}`)
       .parentElement.classList.add("game__player--lost");
     document.getElementById(`status-${activePlayer}`).textContent = "Defeat";
     setActivePlayer();
-  } else if (players[activePlayer].score === 21) {
-    document
-      .getElementById(`cards-${activePlayer}`)
-      .parentElement.classList.add("game__player--win");
-    gameFinish();
+  }
+
+  if (playersLost === players.length - 1) {
+    const lastPlayer = players.findIndex((player) => {
+      return player.passed === true;
+    });
+    gameFinish(players[lastPlayer].name, "Last man standing!");
+  } else if (activePlayer === players.length && playersPassed >= 1) {
+    console.log("I must check if anyone passed and compare the scores");
   }
 };
 
 // Game finish
-const gameFinish = () => {
-  console.log("Game is finished!");
-  document.getElementById("game-result").classList.add("game__result--show");
+const gameFinish = (winner, message) => {
+  console.log(`The winner is ${winner}. ${message}`);
+  const resultModal = document.getElementById("game-result");
+  resultModal.classList.add("game__result--show");
+  resultModal.innerHTML = `
+    <span class="game__result-text">
+       The winner is ${winner}!
+       </br>
+       ${message}
+    </span>
+  `;
+
+  document
+    .getElementById(`cards-${activePlayer}`)
+    .parentElement.classList.add("game__player--win");
+  document.getElementById(`status-${activePlayer}`).textContent = "Winner!";
 };
 
 // Set active player
@@ -61,7 +88,6 @@ const setActivePlayer = () => {
       .getElementById(`cards-${activePlayer}`)
       .parentElement.classList.add("game__player--active");
   } else {
-    gameFinish();
     return;
   }
 
@@ -142,6 +168,10 @@ const clearDOM = () => {
 
     document.getElementById(`status-${i}`).textContent = "In game";
     document.getElementById(`score-${i}`).textContent = "Points: 0/21";
+
+    const resultModal = document.getElementById("game-result");
+    resultModal.classList.remove("game__result--show");
+    resultModal.innerHTML = "";
   }
 };
 
@@ -154,6 +184,7 @@ const startNewGame = async () => {
       score: 0,
       cardsNum: 0,
       inGame: true,
+      passed: false,
     },
     {
       name: "Player 2",
@@ -161,6 +192,7 @@ const startNewGame = async () => {
       score: 0,
       cardsNum: 0,
       inGame: true,
+      passed: false,
     },
     {
       name: "Player 3",
@@ -168,6 +200,7 @@ const startNewGame = async () => {
       score: 0,
       cardsNum: 0,
       inGame: true,
+      passed: false,
     },
     {
       name: "Player 4",
@@ -175,8 +208,12 @@ const startNewGame = async () => {
       score: 0,
       cardsNum: 0,
       inGame: true,
+      passed: false,
     },
   ];
+
+  playersLost = 0;
+  playersPassed = 0;
 
   // Clear UI before start new game
   clearDOM();
@@ -199,7 +236,9 @@ const playerPass = () => {
     .getElementById(`cards-${activePlayer}`)
     .parentElement.classList.add("game__player--pass");
   players[activePlayer].inGame = false;
+  players[activePlayer].passed = true;
   document.getElementById(`status-${activePlayer}`).textContent = "Passed";
+  playersPassed++;
   setActivePlayer();
 };
 

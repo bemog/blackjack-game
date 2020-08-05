@@ -141,6 +141,10 @@ body {
     .game__player--active .game__player-name::after {
       background-color: yellowgreen;
       animation: blink 1s linear infinite; }
+    .game__player--win .game__player-status {
+      font-weight: bold;
+      color: yellowgreen;
+      animation: blink 1s linear infinite; }
     .game__player--lost {
       opacity: 0.5; }
       .game__player--lost .game__player-name::after {
@@ -156,13 +160,19 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center; }
+    align-items: center;
+    position: relative; }
     .game__cards-pool-image {
       height: 100px;
       cursor: pointer;
-      transition: 0.2s; }
+      z-index: 1;
+      transition: 0.4s; }
       .game__cards-pool-image:hover {
-        transform: scale(1.1); }
+        transform: translate(10px, -10px); }
+      .game__cards-pool-image-lower {
+        position: absolute;
+        height: 100px;
+        z-index: 0; }
   .game__button-pass {
     position: absolute;
     top: 57%;
@@ -171,7 +181,8 @@ body {
     transition: 0.2s;
     z-index: 0; }
     .game__button-pass:hover {
-      transform: translate(-50%, 10%); }
+      background-color: #14823b;
+      color: white; }
   .game__result {
     position: absolute;
     top: 50%;
@@ -179,9 +190,9 @@ body {
     height: 250px;
     width: 250px;
     transform: translate(-50%, -50%);
-    background-color: black;
+    background-color: #14823b;
     border-radius: 20px;
-    box-shadow: 0 0 2px 5px black;
+    box-shadow: 0 0 5px 1px black;
     color: white;
     display: flex;
     flex-direction: column;
@@ -191,7 +202,7 @@ body {
     display: none; }
     .game__result-button-restart {
       font-weight: bold;
-      transition: 0.3s; }
+      transition: 0.2s; }
       .game__result-button-restart:hover {
         background-color: white;
         color: #14823b; }

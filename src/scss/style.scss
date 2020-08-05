@@ -159,6 +159,14 @@ body {
       }
     }
 
+    &--win {
+      .game__player-status {
+        font-weight: bold;
+        color: yellowgreen;
+        animation: blink 1s linear infinite;
+      }
+    }
+
     &--lost {
       opacity: 0.5;
       .game__player-name::after {
@@ -180,14 +188,22 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
 
     &-image {
       height: 100px;
       cursor: pointer;
-      transition: 0.2s;
+      z-index: 1;
+      transition: 0.4s;
 
       &:hover {
-        transform: scale(1.1);
+        transform: translate(10px, -10px);
+      }
+
+      &-lower {
+        position: absolute;
+        height: 100px;
+        z-index: 0;
       }
     }
   }
@@ -201,7 +217,8 @@ body {
     z-index: 0;
 
     &:hover {
-      transform: translate(-50%, 10%);
+      background-color: $secondary-color;
+      color: white;
     }
   }
 
@@ -212,9 +229,9 @@ body {
     height: 250px;
     width: 250px;
     transform: translate(-50%, -50%);
-    background-color: black;
+    background-color: $secondary-color;
     border-radius: 20px;
-    box-shadow: 0 0 2px 5px black;
+    box-shadow: 0 0 5px 1px black;
     color: white;
     display: flex;
     flex-direction: column;
@@ -225,10 +242,10 @@ body {
 
     &-button-restart {
       font-weight: bold;
-      transition: 0.3s;
+      transition: 0.2s;
       &:hover {
         background-color: white;
-        color: rgb(20, 130, 59);
+        color: $secondary-color;
       }
     }
 
