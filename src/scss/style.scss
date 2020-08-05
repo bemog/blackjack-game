@@ -165,12 +165,6 @@ body {
         color: red;
       }
     }
-
-    &--pass {
-      .game__player-status {
-        font-weight: bold;
-      }
-    }
   }
 
   &__card-pool {
@@ -190,7 +184,29 @@ body {
   }
 
   &__result {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 250px;
+    width: 250px;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 20px;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
     display: none;
+
+    &--show {
+      display: flex;
+    }
+
+    &-text {
+      line-height: 100%;
+      display: block;
+    }
   }
 }
 

@@ -3,11 +3,12 @@ const btnMulti = document.getElementById("btn-multiplayer");
 const btnGetCard = document.getElementById("btn-get");
 const btnPass = document.getElementById("btn-pass");
 const btnStart = document.getElementById("btn-start");
+const btnRestart = document.getElementById("btn-restart");
 const cardPool = document.getElementById("card-pool");
 
 let cardsDeckId;
 let players = [];
-let activePlayer = 0;
+let activePlayer;
 
 // Get new cards deck id from API
 const getNewCardsDeck = async () => {
@@ -29,18 +30,20 @@ const checkScore = () => {
     document
       .getElementById(`cards-${activePlayer}`)
       .parentElement.classList.add("game__player--lost");
-    document.getElementById(`status-${activePlayer}`).textContent = "You lose";
+    document.getElementById(`status-${activePlayer}`).textContent = "Defeat";
     setActivePlayer();
   } else if (players[activePlayer].score === 21) {
     document
       .getElementById(`cards-${activePlayer}`)
       .parentElement.classList.add("game__player--win");
+    gameFinish();
   }
 };
 
 // Game finish
 const gameFinish = () => {
   console.log("Game is finished!");
+  document.getElementById("game-result").classList.add("game__result--show");
 };
 
 // Set active player
@@ -97,7 +100,11 @@ const pullOneCard = async () => {
         `score-${activePlayer}`
       ).textContent = `Points: ${players[activePlayer].score}/21`;
       document.getElementById(`cards-${activePlayer}`).innerHTML += `
-        <img class="game__player-cards-image" src=${data.cards[0].image} alt="${data.cards[0].suit} ${data.cards[0].value}"/>`;
+        <img class="game__player-cards-image" 
+          src=${data.cards[0].image} 
+          alt="${data.cards[0].suit} 
+          ${data.cards[0].value}"
+        />`;
 
       checkScore();
     });
@@ -108,6 +115,34 @@ const pullStartCards = () => {
   if (players[activePlayer].score === 0) {
     pullOneCard(activePlayer);
     pullOneCard(activePlayer);
+  }
+};
+
+// Clear UI
+const clearDOM = () => {
+  for (i = 0; i < players.length; i++) {
+    let classNumber = i;
+    switch (classNumber) {
+      case 0:
+        classNumber = "one";
+        break;
+      case 1:
+        classNumber = "two";
+        break;
+      case 2:
+        classNumber = "three";
+        break;
+      case 3:
+        classNumber = "four";
+        break;
+    }
+
+    const playerInfo = document.getElementById(`cards-${i}`);
+    playerInfo.parentElement.className = `game__player game__player-${classNumber}`;
+    playerInfo.innerHTML = "";
+
+    document.getElementById(`status-${i}`).textContent = "In game";
+    document.getElementById(`score-${i}`).textContent = "Points: 0/21";
   }
 };
 
@@ -144,6 +179,12 @@ const startNewGame = async () => {
     },
   ];
 
+  // Set active player to first player
+  activePlayer = 0;
+
+  // Clear UI before start new game
+  clearDOM();
+
   // Get cards deck number from API
   cardsDeckId = await getNewCardsDeck();
 
@@ -178,6 +219,11 @@ btnPass.addEventListener("click", () => {
 });
 
 btnStart.addEventListener("click", startNewGame);
+
+btnRestart.addEventListener("click", () => {
+  document.getElementById("game-result").classList.remove("game__result--show");
+  startNewGame();
+});
 
 cardPool.addEventListener("click", () => {
   pullOneCard(activePlayer);

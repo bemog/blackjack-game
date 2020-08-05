@@ -143,8 +143,6 @@ body {
       .game__player--lost .game__player-status {
         font-weight: bold;
         color: red; }
-    .game__player--pass .game__player-status {
-      font-weight: bold; }
   .game__card-pool {
     grid-column-start: 2;
     grid-column-end: 2;
@@ -158,7 +156,25 @@ body {
       height: 100px;
       cursor: pointer; }
   .game__result {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 250px;
+    width: 250px;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 20px;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
     display: none; }
+    .game__result--show {
+      display: flex; }
+    .game__result-text {
+      line-height: 100%;
+      display: block; }
 
 .control-panel {
   margin-top: 15px;
