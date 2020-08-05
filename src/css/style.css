@@ -137,9 +137,14 @@ body {
       background-color: yellowgreen;
       animation: blink 1s linear infinite; }
     .game__player--lost {
-      opacity: 0.3; }
+      opacity: 0.5; }
       .game__player--lost .game__player-name::after {
         background-color: red; }
+      .game__player--lost .game__player-status {
+        font-weight: bold;
+        color: red; }
+    .game__player--pass .game__player-status {
+      font-weight: bold; }
   .game__card-pool {
     grid-column-start: 2;
     grid-column-end: 2;

@@ -29,6 +29,7 @@ const checkScore = () => {
     document
       .getElementById(`cards-${activePlayer}`)
       .parentElement.classList.add("game__player--lost");
+    document.getElementById(`status-${activePlayer}`).textContent = "You lose";
     setActivePlayer();
   } else if (players[activePlayer].score === 21) {
     document
@@ -46,19 +47,21 @@ const gameFinish = () => {
 const setActivePlayer = () => {
   activePlayer++;
 
-  if (activePlayer > players.length) {
-    gameFinish();
-  }
-
-  // Set class active
-  players.forEach((item, index) => {
+  // Remove class active
+  for (i = 0; i < players.length; i++) {
     document
-      .getElementById(`cards-${index}`)
+      .getElementById(`cards-${i}`)
       .parentElement.classList.remove("game__player--active");
-  });
-  document
-    .getElementById(`cards-${activePlayer}`)
-    .parentElement.classList.add("game__player--active");
+  }
+  // Check if there is next player
+  if (activePlayer < players.length) {
+    document
+      .getElementById(`cards-${activePlayer}`)
+      .parentElement.classList.add("game__player--active");
+  } else {
+    gameFinish();
+    return;
+  }
 
   pullStartCards();
 };
@@ -68,6 +71,7 @@ const pullOneCard = async () => {
   fetch(`https://deckofcardsapi.com/api/deck/${cardsDeckId}/draw/?count=1`)
     .then((response) => response.json())
     .then((data) => {
+      // Set points value for specific cards
       let points = data.cards[0].value;
       switch (points) {
         case "ACE":
@@ -85,8 +89,9 @@ const pullOneCard = async () => {
         default:
           points = parseInt(data.cards[0].value);
       }
-      // Update player score
+      // Update player score and cards number
       players[activePlayer].score += points;
+      players[activePlayer].cardsNum++;
       // Update player panel DOM
       document.getElementById(
         `score-${activePlayer}`
@@ -98,7 +103,7 @@ const pullOneCard = async () => {
     });
 };
 
-// Pull two starting cards for every player
+// Pull two starting cards
 const pullStartCards = () => {
   if (players[activePlayer].score === 0) {
     pullOneCard(activePlayer);
@@ -113,30 +118,36 @@ const startNewGame = async () => {
       name: "Player 1",
       control: "human",
       score: 0,
+      cardsNum: 0,
       inGame: true,
     },
     {
       name: "Player 2",
       control: "cpu",
       score: 0,
+      cardsNum: 0,
       inGame: true,
     },
     {
       name: "Player 3",
       control: "cpu",
       score: 0,
+      cardsNum: 0,
       inGame: true,
     },
     {
       name: "Player 4",
       control: "cpu",
       score: 0,
+      cardsNum: 0,
       inGame: true,
     },
   ];
 
+  // Get cards deck number from API
   cardsDeckId = await getNewCardsDeck();
 
+  // Set first player class active
   document
     .getElementById(`cards-${activePlayer}`)
     .parentElement.classList.add("game__player--active");
@@ -158,11 +169,11 @@ btnGetCard.addEventListener("click", () => {
 });
 
 btnPass.addEventListener("click", () => {
-  players[activePlayer].pass = true;
   document
     .getElementById(`cards-${activePlayer}`)
     .parentElement.classList.add("game__player--pass");
   players[activePlayer].inGame = false;
+  document.getElementById(`status-${activePlayer}`).textContent = "Passed";
   setActivePlayer();
 });
 

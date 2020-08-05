@@ -156,9 +156,19 @@ body {
     }
 
     &--lost {
-      opacity: 0.3;
+      opacity: 0.5;
       .game__player-name::after {
         background-color: red;
+      }
+      .game__player-status {
+        font-weight: bold;
+        color: red;
+      }
+    }
+
+    &--pass {
+      .game__player-status {
+        font-weight: bold;
       }
     }
   }
