@@ -13,25 +13,34 @@
       <div class="start-screen" id="start-screen">
         <div class="start-screen__info">
           <h2 class="start-screen__info-text">
-            Press button to start new game
+            Set players and push start!
           </h2>
-          <div class="start-screen__info-control">
-            <button
-              class="start-screen__info-control-button"
-              id="btn-singleplayer"
-            >
-              Singleplayer
-            </button>
-            <button
-              class="start-screen__info-control-button"
-              id="btn-multiplayer"
-            >
-              Multiplayer
-            </button>
-            <button class="start-screen__info-control-button" id="btn-start">
-              Start
-            </button>
-          </div>
+          <label for="players-number">
+            Number of players:
+            <input
+              class="start-screen__info-control-input-players"
+              type="number"
+              name="players-number"
+              id="players-number"
+              placeholder="1"
+              value="1"
+              min="1"
+              max="4"
+            />
+          </label>
+          <form class="start-screen__info-control" id="info-control">
+            <input
+              class="start-screen__info-control-input"
+              type="text"
+              name="player0-name"
+              id="player0-name"
+              value="Player 1"
+            />
+          </form>
+
+          <button class="start-screen__info-control-button" id="btn-start">
+            Start
+          </button>
         </div>
       </div>
       <div class="game">

@@ -1,13 +1,14 @@
-const btnSingle = document.getElementById("btn-singleplayer");
-const btnMulti = document.getElementById("btn-multiplayer");
 const btnPass = document.getElementById("btn-pass");
 const btnStart = document.getElementById("btn-start");
 const btnRestart = document.getElementById("btn-restart");
 const cardsPool = document.getElementById("cards-pool");
 const resultModal = document.getElementById("game-result");
 const startScreen = document.getElementById("start-screen");
+const setPlayersNumber = document.getElementById("players-number");
+const playersForm = document.getElementById("info-control");
 
 let cardsDeckId;
+let playersNumber = 1;
 let activePlayer;
 let players = [];
 let lostArray = [];
@@ -26,7 +27,7 @@ const getNewCardsDeck = async () => {
   return cardsDeckId;
 };
 
-// Set player state
+// Set player status
 const setStatus = (playerIndex, playerStatus, playerMessage) => {
   document
     .getElementById(`cards-${playerIndex}`)
@@ -56,7 +57,7 @@ const checkScore = () => {
       }
     });
     setStatus(activePlayer, "win", "Winner!");
-    gameFinish(players[activePlayer].name, "Blackjack!");
+    gameFinish(players[activePlayer].name, "21 pts - Blackjack!");
   } else if (players[activePlayer].score > 21) {
     lostArray.push(players[activePlayer]);
     document
@@ -96,7 +97,7 @@ const checkScore = () => {
       setStatus(highestIndex, "win", "Winner!");
       gameFinish(players[highestIndex].name, "Highest score!");
     }
-  } else if (lostArray.length === players.length - 1) {
+  } else if (lostArray.length === players.length - 1 && players.length > 1) {
     setStatus(activePlayer, "win", "Winner!");
     gameFinish(players[activePlayer].name, "Last man standing!");
   }
@@ -195,7 +196,7 @@ const pullStartCards = () => {
 
     setTimeout(() => {
       pullOneCard(activePlayer);
-    }, 1000);
+    }, 800);
   }
 };
 
@@ -235,36 +236,17 @@ const clearDOM = () => {
 
 // Start new game
 const startNewGame = async () => {
-  players = [
-    {
-      id: 0,
-      name: "Player 1",
-      control: "human",
+  // Create new players objects
+  for (i = 0; i < playersNumber; i++) {
+    const name = document.getElementById(`player${i}-name`).value;
+    const player = {
+      id: i,
+      name: `${name}`,
       score: 0,
       cardsNum: 0,
-    },
-    {
-      id: 1,
-      name: "Player 2",
-      control: "cpu",
-      score: 0,
-      cardsNum: 0,
-    },
-    {
-      id: 2,
-      name: "Player 3",
-      control: "cpu",
-      score: 0,
-      cardsNum: 0,
-    },
-    {
-      id: 3,
-      name: "Player 4",
-      control: "cpu",
-      score: 0,
-      cardsNum: 0,
-    },
-  ];
+    };
+    players.push(player);
+  }
 
   lostArray = [];
   passArray = [];
@@ -291,14 +273,6 @@ const playerPass = () => {
 };
 
 // Event listeners
-btnSingle.addEventListener("click", () => {
-  console.log("single");
-});
-
-btnMulti.addEventListener("click", () => {
-  console.log("multi");
-});
-
 btnPass.addEventListener("click", playerPass);
 
 btnStart.addEventListener("click", startNewGame);
@@ -310,4 +284,19 @@ btnRestart.addEventListener("click", () => {
 
 cardsPool.addEventListener("click", () => {
   pullOneCard(activePlayer);
+});
+
+setPlayersNumber.addEventListener("change", (e) => {
+  playersForm.innerHTML = "";
+  playersNumber = +e.target.value;
+  for (i = 0; i < playersNumber; i++) {
+    playersForm.innerHTML += `
+    <input
+    class="start-screen__info-control-input"
+    type="text"
+    name="player${i}-name"
+    id="player${i}-name"
+    value="Player ${i + 1}"/>
+    `;
+  }
 });
