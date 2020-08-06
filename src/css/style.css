@@ -200,6 +200,9 @@ body {
     align-items: center;
     z-index: 1;
     display: none; }
+    .game__result-text {
+      margin-top: 10px;
+      text-align: center; }
     .game__result-button-restart {
       font-weight: bold;
       transition: 0.2s; }

@@ -4,6 +4,7 @@ const btnPass = document.getElementById("btn-pass");
 const btnStart = document.getElementById("btn-start");
 const btnRestart = document.getElementById("btn-restart");
 const cardsPool = document.getElementById("cards-pool");
+const resultModal = document.getElementById("game-result");
 
 let cardsDeckId;
 let activePlayer;
@@ -11,7 +12,7 @@ let players = [];
 let lostArray = [];
 let passArray = [];
 
-// Get new cards deck id from API
+// Get new cards deck id from API - DONE
 const getNewCardsDeck = async () => {
   let cardsDeckId = await fetch(
     "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1"
@@ -45,9 +46,17 @@ const checkScore = () => {
     gameFinish(players[activePlayer].name, "Blackjack!");
   } else if (players[activePlayer].score > 21) {
     lostArray.push(players[activePlayer]);
+    document
+      .getElementById(`cards-${activePlayer}`)
+      .parentElement.classList.remove("game__player--active");
     setStatus(activePlayer, "lost", "Defeat");
-    setActivePlayer();
-  } else if (lostArray.length + passArray.length === players.length) {
+
+    if (activePlayer < players.length - 1) {
+      setActiveNextPlayer();
+    }
+  }
+
+  if (lostArray.length + passArray.length === players.length) {
     const highestScore = Math.max(...passArray);
     let duplicate = 0;
     passArray.forEach((score) => {
@@ -70,36 +79,33 @@ const checkScore = () => {
 
 // Game finish
 const gameFinish = (winner, message) => {
-  console.log(`The winner is ${winner}. ${message}`);
-  const resultModal = document.getElementById("game-result");
   resultModal.classList.add("game__result--show");
-  resultModal.innerHTML = `
-    <span class="game__result-text">
-      The winner is ${winner}
-       </br>
+  if (winner !== null) {
+    resultModal.firstElementChild.innerHTML = `
+      The winner is ${winner} </br>
        ${message}
-    </span>
-  `;
+    `;
+  } else {
+    resultModal.firstElementChild.textContent = `
+     ${message}
+    `;
+  }
 };
 
 // Set active player
-const setActivePlayer = () => {
+const setActiveNextPlayer = () => {
   activePlayer++;
-
   // Remove class active
   for (i = 0; i < players.length; i++) {
     document
       .getElementById(`cards-${i}`)
       .parentElement.classList.remove("game__player--active");
   }
-  // Check if there is next player
+  // Check if there is next player and set him active
   if (activePlayer < players.length) {
     setStatus(activePlayer, "active", "In game");
-  } else {
-    return;
+    pullStartCards();
   }
-
-  pullStartCards();
 };
 
 // Pull one card from deck
@@ -179,7 +185,7 @@ const clearDOM = () => {
 
     const resultModal = document.getElementById("game-result");
     resultModal.classList.remove("game__result--show");
-    resultModal.innerHTML = "";
+    resultModal.firstElementChild.innerHTML = "";
   }
 };
 
@@ -192,8 +198,6 @@ const startNewGame = async () => {
       control: "human",
       score: 0,
       cardsNum: 0,
-      inGame: true,
-      passed: false,
     },
     {
       id: 1,
@@ -201,8 +205,6 @@ const startNewGame = async () => {
       control: "cpu",
       score: 0,
       cardsNum: 0,
-      inGame: true,
-      passed: false,
     },
     {
       id: 2,
@@ -210,8 +212,6 @@ const startNewGame = async () => {
       control: "cpu",
       score: 0,
       cardsNum: 0,
-      inGame: true,
-      passed: false,
     },
     {
       id: 3,
@@ -219,8 +219,6 @@ const startNewGame = async () => {
       control: "cpu",
       score: 0,
       cardsNum: 0,
-      inGame: true,
-      passed: false,
     },
   ];
 
@@ -243,11 +241,9 @@ const startNewGame = async () => {
 // Player pass
 const playerPass = () => {
   setStatus(activePlayer, "pass", "Passed");
-  players[activePlayer].inGame = false;
-  players[activePlayer].passed = true;
   passArray.push(players[activePlayer].score);
   checkScore();
-  setActivePlayer();
+  setActiveNextPlayer();
 };
 
 // Event listeners

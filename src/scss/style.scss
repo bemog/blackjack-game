@@ -240,6 +240,11 @@ body {
     z-index: 1;
     display: none;
 
+    &-text {
+      margin-top: 10px;
+      text-align: center;
+    }
+
     &-button-restart {
       font-weight: bold;
       transition: 0.2s;
