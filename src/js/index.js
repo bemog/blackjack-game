@@ -6,10 +6,10 @@ const btnRestart = document.getElementById("btn-restart");
 const cardsPool = document.getElementById("cards-pool");
 
 let cardsDeckId;
-let players = [];
-let playersLost = 0;
-let playersPassed = 0;
 let activePlayer;
+let players = [];
+let lostArray = [];
+let passArray = [];
 
 // Get new cards deck id from API
 const getNewCardsDeck = async () => {
@@ -24,6 +24,16 @@ const getNewCardsDeck = async () => {
   return cardsDeckId;
 };
 
+// Set player state
+const setStatus = (playerIndex, playerStatus, playerMessage) => {
+  document
+    .getElementById(`cards-${playerIndex}`)
+    .parentElement.classList.add(`game__player--${playerStatus}`);
+  document.getElementById(
+    `status-${playerIndex}`
+  ).textContent = `${playerMessage}`;
+};
+
 // Check score
 const checkScore = () => {
   if (
@@ -34,22 +44,27 @@ const checkScore = () => {
   } else if (players[activePlayer].score === 21) {
     gameFinish(players[activePlayer].name, "Blackjack!");
   } else if (players[activePlayer].score > 21) {
-    players[activePlayer].inGame = false;
-    playersLost++;
-    document
-      .getElementById(`cards-${activePlayer}`)
-      .parentElement.classList.add("game__player--lost");
-    document.getElementById(`status-${activePlayer}`).textContent = "Defeat";
+    lostArray.push(players[activePlayer]);
+    setStatus(activePlayer, "lost", "Defeat");
     setActivePlayer();
-  }
-
-  if (playersLost === players.length - 1) {
-    const lastPlayer = players.findIndex((player) => {
-      return player.passed === true;
+  } else if (lostArray.length + passArray.length === players.length) {
+    const highestScore = Math.max(...passArray);
+    let duplicate = 0;
+    passArray.forEach((score) => {
+      score === highestScore ? duplicate++ : null;
     });
-    gameFinish(players[lastPlayer].name, "Last man standing!");
-  } else if (activePlayer === players.length && playersPassed >= 1) {
-    console.log("I must check if anyone passed and compare the scores");
+    if (duplicate > 1) {
+      gameFinish(null, "It's a draw!");
+    } else {
+      const highestIndex = players.findIndex((player) => {
+        return player.score === highestScore;
+      });
+      setStatus(highestIndex, "win", "Winner!");
+      gameFinish(players[highestIndex].name, "Highest score!");
+    }
+  } else if (lostArray.length === players.length - 1) {
+    setStatus(activePlayer, "win", "Winner!");
+    gameFinish(players[activePlayer].name, "Last man standing!");
   }
 };
 
@@ -60,16 +75,11 @@ const gameFinish = (winner, message) => {
   resultModal.classList.add("game__result--show");
   resultModal.innerHTML = `
     <span class="game__result-text">
-       The winner is ${winner}!
+      The winner is ${winner}
        </br>
        ${message}
     </span>
   `;
-
-  document
-    .getElementById(`cards-${activePlayer}`)
-    .parentElement.classList.add("game__player--win");
-  document.getElementById(`status-${activePlayer}`).textContent = "Winner!";
 };
 
 // Set active player
@@ -84,9 +94,7 @@ const setActivePlayer = () => {
   }
   // Check if there is next player
   if (activePlayer < players.length) {
-    document
-      .getElementById(`cards-${activePlayer}`)
-      .parentElement.classList.add("game__player--active");
+    setStatus(activePlayer, "active", "In game");
   } else {
     return;
   }
@@ -179,6 +187,7 @@ const clearDOM = () => {
 const startNewGame = async () => {
   players = [
     {
+      id: 0,
       name: "Player 1",
       control: "human",
       score: 0,
@@ -187,6 +196,7 @@ const startNewGame = async () => {
       passed: false,
     },
     {
+      id: 1,
       name: "Player 2",
       control: "cpu",
       score: 0,
@@ -195,6 +205,7 @@ const startNewGame = async () => {
       passed: false,
     },
     {
+      id: 2,
       name: "Player 3",
       control: "cpu",
       score: 0,
@@ -203,6 +214,7 @@ const startNewGame = async () => {
       passed: false,
     },
     {
+      id: 3,
       name: "Player 4",
       control: "cpu",
       score: 0,
@@ -212,17 +224,15 @@ const startNewGame = async () => {
     },
   ];
 
-  playersLost = 0;
-  playersPassed = 0;
+  lostArray = [];
+  passArray = [];
 
   // Clear UI before start new game
   clearDOM();
 
   // Set first player active
   activePlayer = 0;
-  document
-    .getElementById(`cards-${activePlayer}`)
-    .parentElement.classList.add("game__player--active");
+  setStatus(activePlayer, "active", "In game");
 
   // Get cards deck number from API
   cardsDeckId = await getNewCardsDeck();
@@ -232,13 +242,11 @@ const startNewGame = async () => {
 
 // Player pass
 const playerPass = () => {
-  document
-    .getElementById(`cards-${activePlayer}`)
-    .parentElement.classList.add("game__player--pass");
+  setStatus(activePlayer, "pass", "Passed");
   players[activePlayer].inGame = false;
   players[activePlayer].passed = true;
-  document.getElementById(`status-${activePlayer}`).textContent = "Passed";
-  playersPassed++;
+  passArray.push(players[activePlayer].score);
+  checkScore();
   setActivePlayer();
 };
 
