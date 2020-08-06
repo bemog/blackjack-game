@@ -10,7 +10,7 @@
   <body>
     <h1 class="title">Blackjack</h1>
     <div class="wrapper">
-      <div class="start-screen start-screen--hide">
+      <div class="start-screen" id="start-screen">
         <div class="start-screen__info">
           <h2 class="start-screen__info-text">
             Press button to start new game
@@ -27,6 +27,9 @@
               id="btn-multiplayer"
             >
               Multiplayer
+            </button>
+            <button class="start-screen__info-control-button" id="btn-start">
+              Start
             </button>
           </div>
         </div>
@@ -76,10 +79,6 @@
         </div>
         <button class="game__button-pass" id="btn-pass">Pass</button>
       </div>
-
-      <button class="start-screen__info-control-button" id="btn-start">
-        Start
-      </button>
     </div>
     <script src="./js/index.js"></script>
   </body>

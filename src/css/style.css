@@ -59,7 +59,8 @@ body {
   background-color: #1e1e26;
   display: flex;
   justify-content: center;
-  align-items: center; }
+  align-items: center;
+  z-index: 5; }
   .start-screen--hide {
     display: none; }
   .start-screen__info {

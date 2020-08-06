@@ -5,6 +5,7 @@ const btnStart = document.getElementById("btn-start");
 const btnRestart = document.getElementById("btn-restart");
 const cardsPool = document.getElementById("cards-pool");
 const resultModal = document.getElementById("game-result");
+const startScreen = document.getElementById("start-screen");
 
 let cardsDeckId;
 let activePlayer;
@@ -41,8 +42,20 @@ const checkScore = () => {
     players[activePlayer].score === 22 &&
     players[activePlayer].cardsNum === 2
   ) {
+    players.forEach((player) => {
+      if (player.id !== activePlayer) {
+        setStatus(player.id, "lost", "Defeat");
+      }
+    });
+    setStatus(activePlayer, "win", "Winner!");
     gameFinish(players[activePlayer].name, "Double Ace!");
   } else if (players[activePlayer].score === 21) {
+    players.forEach((player) => {
+      if (player.id !== activePlayer) {
+        setStatus(player.id, "lost", "Defeat");
+      }
+    });
+    setStatus(activePlayer, "win", "Winner!");
     gameFinish(players[activePlayer].name, "Blackjack!");
   } else if (players[activePlayer].score > 21) {
     lostArray.push(players[activePlayer]);
@@ -63,10 +76,22 @@ const checkScore = () => {
       score === highestScore ? duplicate++ : null;
     });
     if (duplicate > 1) {
+      players.forEach((player) => {
+        if (player.score < highestScore) {
+          setStatus(player.id, "lost", "Defeat");
+        } else if (player.score === highestScore) {
+          setStatus(player.id, "win", "Draw!");
+        }
+      });
       gameFinish(null, "It's a draw!");
     } else {
       const highestIndex = players.findIndex((player) => {
         return player.score === highestScore;
+      });
+      players.forEach((player) => {
+        if (player.score !== highestScore) {
+          setStatus(player.id, "lost", "Defeat");
+        }
       });
       setStatus(highestIndex, "win", "Winner!");
       gameFinish(players[highestIndex].name, "Highest score!");
@@ -175,6 +200,8 @@ const clearDOM = () => {
         classNumber = "four";
         break;
     }
+
+    startScreen.classList.add("start-screen--hide");
 
     const playerInfo = document.getElementById(`cards-${i}`);
     playerInfo.parentElement.className = `game__player game__player-${classNumber}`;
