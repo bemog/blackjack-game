@@ -163,12 +163,26 @@ const pullOneCard = async () => {
       document.getElementById(
         `score-${activePlayer}`
       ).textContent = `Points: ${players[activePlayer].score}/21`;
-      document.getElementById(`cards-${activePlayer}`).innerHTML += `
-        <img class="game__player-cards-image" 
-          src=${data.cards[0].image} 
-          alt="${data.cards[0].suit} 
-          ${data.cards[0].value}"
-        />`;
+      const newCard = document.createElement("div");
+      newCard.innerHTML = `
+      <div class="game__player-cards-card">
+        <div class="game__player-cards-card-inner">
+          <div class="game__player-cards-card-inner-front">
+          <img class="game__player-cards-card-inner-front-image"
+          src="./image/card-pool.png"
+          />
+          </div>
+          <div class="game__player-cards-card-inner-back">
+            <img class="game__player-cards-card-inner-back-image" 
+              src=${data.cards[0].image} 
+              alt="${data.cards[0].suit} 
+              ${data.cards[0].value}"
+            />
+          </div>
+        </div>
+      </div>
+      `;
+      document.getElementById(`cards-${activePlayer}`).appendChild(newCard);
 
       checkScore();
     });
@@ -178,7 +192,10 @@ const pullOneCard = async () => {
 const pullStartCards = () => {
   if (players[activePlayer].score === 0) {
     pullOneCard(activePlayer);
-    pullOneCard(activePlayer);
+
+    setTimeout(() => {
+      pullOneCard(activePlayer);
+    }, 1000);
   }
 };
 
