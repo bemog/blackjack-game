@@ -311,12 +311,16 @@ const updatePlayerInputs = (e) => {
   if (playersCount >= 1 && playersCount <= 4) {
     for (i = 0; i < playersCount; i++) {
       playersForm.innerHTML += `
+      <label>
+      <i class="fas fa-user"></i>
       <input
       class="start-screen__info-control-input"
       type="text"
       name="player${i}-name"
       id="player${i}-name"
       value="Player ${i + 1}"/>
+      </label>
+      
       `;
     }
   }
@@ -396,7 +400,17 @@ const playerPass = () => {
 // Event listeners
 btnPass.addEventListener("click", playerPass);
 
-btnStart.addEventListener("click", startNewGame);
+btnStart.addEventListener("click", () => {
+  // Animate start screen and start new game with delay
+  const startInfo = document.getElementById("start-screen-info");
+  startInfo.classList.add("start-screen__info--grow");
+  setTimeout(() => {
+    document.getElementById("wrapper").classList.add("wrapper--show");
+  }, 1000);
+  setTimeout(() => {
+    startNewGame();
+  }, 1000);
+});
 
 btnRestart.addEventListener("click", () => {
   // Hide finish results and start new game

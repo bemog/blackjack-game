@@ -3,16 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/ab62a01839.js"
+      crossorigin="anonymous"
+    ></script>
     <link rel="stylesheet" href="css/style.css" />
     <title>Blackjack game</title>
   </head>
 
   <body>
     <h1 class="title">Blackjack</h1>
-    <div class="wrapper">
+    <div class="wrapper" id="wrapper">
       <div class="start-screen" id="start-screen">
-        <div class="start-screen__info">
+        <div class="start-screen__info" id="start-screen-info">
           <h2 class="start-screen__info-text">
+            Blackjack </br>
             Set players and start game!
           </h2>
           <label for="players-number">
@@ -29,13 +34,16 @@
             />
           </label>
           <form class="start-screen__info-control" id="info-control">
-            <input
-              class="start-screen__info-control-input"
-              type="text"
-              name="player0-name"
-              id="player0-name"
-              value="Player 1"
-            />
+            <label class="start-screen__info-control-input-label">
+              <i class="fas fa-user"></i>
+              <input
+                class="start-screen__info-control-input"
+                type="text"
+                name="player0-name"
+                id="player0-name"
+                value="Player 1"
+              />
+            </label>
           </form>
 
           <button class="start-screen__info-control-button" id="btn-start">

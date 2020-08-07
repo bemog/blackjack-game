@@ -31,4 +31,12 @@ input:focus {
 
 input[type="number"]::-webkit-inner-spin-button {
   opacity: 1;
+  cursor: pointer;
+}
+
+i {
+  margin-right: 5px;
+  margin-bottom: 5px;
+  vertical-align: bottom;
+  font-size: 1.7rem;
 }
