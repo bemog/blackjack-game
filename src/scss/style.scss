@@ -115,6 +115,10 @@ body {
     align-items: center;
     justify-content: center;
 
+    &--hide {
+      display: none;
+    }
+
     &-one {
       grid-column-start: 1;
       grid-column-end: 4;

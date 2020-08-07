@@ -10,11 +10,12 @@ const playersForm = document.getElementById("info-control");
 let cardsDeckId;
 let playersNumber = 1;
 let activePlayer;
+let gameOn = true;
 let players = [];
 let lostArray = [];
 let passArray = [];
 
-// Get new cards deck id from API - DONE
+// Get new cards deck id from API
 const getNewCardsDeck = async () => {
   let cardsDeckId = await fetch(
     "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1"
@@ -39,6 +40,7 @@ const setStatus = (playerIndex, playerStatus, playerMessage) => {
 
 // Check score
 const checkScore = () => {
+  // Check if double ace
   if (
     players[activePlayer].score === 22 &&
     players[activePlayer].cardsNum === 2
@@ -50,6 +52,7 @@ const checkScore = () => {
     });
     setStatus(activePlayer, "win", "Winner!");
     gameFinish(players[activePlayer].name, "Double Ace!");
+    // Check if blackjack
   } else if (players[activePlayer].score === 21) {
     players.forEach((player) => {
       if (player.id !== activePlayer) {
@@ -58,24 +61,23 @@ const checkScore = () => {
     });
     setStatus(activePlayer, "win", "Winner!");
     gameFinish(players[activePlayer].name, "21 pts - Blackjack!");
+    // Check if to much points
   } else if (players[activePlayer].score > 21) {
     lostArray.push(players[activePlayer]);
     document
       .getElementById(`cards-${activePlayer}`)
       .parentElement.classList.remove("game__player--active");
     setStatus(activePlayer, "lost", "Defeat");
-
-    if (activePlayer < players.length - 1) {
-      setActiveNextPlayer();
-    }
+    setActiveNextPlayer();
   }
-
+  // Check passed scores
   if (lostArray.length + passArray.length === players.length) {
     const highestScore = Math.max(...passArray);
     let duplicate = 0;
     passArray.forEach((score) => {
       score === highestScore ? duplicate++ : null;
     });
+    // Check if draw
     if (duplicate > 1) {
       players.forEach((player) => {
         if (player.score < highestScore) {
@@ -85,6 +87,7 @@ const checkScore = () => {
         }
       });
       gameFinish(null, "It's a draw!");
+      // Check if biggest score
     } else {
       const highestIndex = players.findIndex((player) => {
         return player.score === highestScore;
@@ -97,6 +100,7 @@ const checkScore = () => {
       setStatus(highestIndex, "win", "Winner!");
       gameFinish(players[highestIndex].name, "Highest score!");
     }
+    // Check if last man standing
   } else if (lostArray.length === players.length - 1 && players.length > 1) {
     setStatus(activePlayer, "win", "Winner!");
     gameFinish(players[activePlayer].name, "Last man standing!");
@@ -116,6 +120,7 @@ const gameFinish = (winner, message) => {
      ${message}
     `;
   }
+  gameOn = false;
 };
 
 // Set active player
@@ -126,6 +131,10 @@ const setActiveNextPlayer = () => {
     document
       .getElementById(`cards-${i}`)
       .parentElement.classList.remove("game__player--active");
+  }
+  // Check if last man standing
+  if (lostArray.length === players.length - 1) {
+    gameOn = false;
   }
   // Check if there is next player and set him active
   if (activePlayer < players.length) {
@@ -191,9 +200,10 @@ const pullOneCard = async () => {
 
 // Pull two starting cards
 const pullStartCards = () => {
-  if (players[activePlayer].score === 0) {
+  if (players[activePlayer].score === 0 && gameOn) {
+    // Pull first card
     pullOneCard(activePlayer);
-
+    // Pull second card with delay
     setTimeout(() => {
       pullOneCard(activePlayer);
     }, 800);
@@ -234,11 +244,28 @@ const clearDOM = () => {
   }
 };
 
+// Update starting screen player inputs
+const updatePlayerInputs = (e) => {
+  playersForm.innerHTML = "";
+  playersNumber = +e.target.value;
+  for (i = 0; i < playersNumber; i++) {
+    playersForm.innerHTML += `
+    <input
+    class="start-screen__info-control-input"
+    type="text"
+    name="player${i}-name"
+    id="player${i}-name"
+    value="Player ${i + 1}"/>
+    `;
+  }
+};
+
 // Start new game
 const startNewGame = async () => {
   players = [];
   lostArray = [];
   passArray = [];
+  gameOn = true;
 
   // Create new players objects
   for (i = 0; i < playersNumber; i++) {
@@ -251,7 +278,7 @@ const startNewGame = async () => {
     };
     players.push(player);
 
-    // Update player name on board
+    // Update player names on board
     const playerStation = document.getElementById(`player-${i}-position-name`);
     playerStation.textContent = name;
   }
@@ -291,17 +318,4 @@ cardsPool.addEventListener("click", () => {
   pullOneCard(activePlayer);
 });
 
-setPlayersNumber.addEventListener("change", (e) => {
-  playersForm.innerHTML = "";
-  playersNumber = +e.target.value;
-  for (i = 0; i < playersNumber; i++) {
-    playersForm.innerHTML += `
-    <input
-    class="start-screen__info-control-input"
-    type="text"
-    name="player${i}-name"
-    id="player${i}-name"
-    value="Player ${i + 1}"/>
-    `;
-  }
-});
+setPlayersNumber.addEventListener("change", updatePlayerInputs);
