@@ -142,7 +142,13 @@ const gameFinish = (winner, message) => {
     resultModal.classList.add("game__result--red");
     resultModal.firstElementChild.innerHTML = `
     You Lost!
-    The winner is ${winner} </br>
+    </br>
+     ${message}
+  `;
+  } else if (winner !== null && playersCount === 1) {
+    resultModal.firstElementChild.innerHTML = `
+    You Won!
+    </br>
      ${message}
   `;
   } else if (winner !== null) {
@@ -287,6 +293,8 @@ const clearUI = () => {
     // Enable buttons
     btnPass.classList.remove("game__button-pass--disable");
     cardsPool.classList.remove("game__cards-pool--disable");
+    // Clear red result modal color
+    resultModal.classList.remove("game__result--red");
   }
 };
 
@@ -347,7 +355,7 @@ const startNewGame = async () => {
         "Casino Croupier";
     }
 
-    // Update player names on board
+    // Update players names on board
     const playerStation = document.getElementById(`player-${i}-position-name`);
     playerStation.textContent = name;
   }
