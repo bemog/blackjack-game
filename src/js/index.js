@@ -236,6 +236,10 @@ const clearDOM = () => {
 
 // Start new game
 const startNewGame = async () => {
+  players = [];
+  lostArray = [];
+  passArray = [];
+
   // Create new players objects
   for (i = 0; i < playersNumber; i++) {
     const name = document.getElementById(`player${i}-name`).value;
@@ -246,10 +250,11 @@ const startNewGame = async () => {
       cardsNum: 0,
     };
     players.push(player);
-  }
 
-  lostArray = [];
-  passArray = [];
+    // Update player name on board
+    const playerStation = document.getElementById(`player-${i}-position-name`);
+    playerStation.textContent = name;
+  }
 
   // Clear UI before start new game
   clearDOM();
