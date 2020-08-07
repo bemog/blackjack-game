@@ -224,8 +224,8 @@ const pullOneCard = async () => {
       ).textContent = `Points: ${players[activePlayer].score}/21`;
       // Create new card element
       const newCard = document.createElement("div");
+      newCard.className = "game__player-cards-card";
       newCard.innerHTML = `
-      <div class="game__player-cards-card">
         <div class="game__player-cards-card-inner">
           <div class="game__player-cards-card-inner-front">
           <img class="game__player-cards-card-inner-front-image"
@@ -238,7 +238,6 @@ const pullOneCard = async () => {
               alt="${data.cards[0].suit} 
               ${data.cards[0].value}"
             />
-          </div>
         </div>
       </div>
       `;
