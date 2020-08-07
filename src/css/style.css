@@ -258,6 +258,8 @@ body {
         color: #14823b; }
     .game__result--show {
       display: flex; }
+    .game__result--red {
+      background-color: red; }
     .game__result-text {
       line-height: 100%;
       display: block; }

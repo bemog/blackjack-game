@@ -102,12 +102,46 @@ const checkScore = () => {
     setStatus(activePlayer, "win", "Winner!");
     gameFinish(players[activePlayer].name, "Last man standing!");
   }
+
+  // Check if next player is a casino croupier
+  if (
+    players[activePlayer].name === "Croupier" &&
+    players[activePlayer].cardsNum > 1
+  ) {
+    // Croupier's action with delay
+    if (gameOn) {
+      setTimeout(() => {
+        if (players[0].score > players[activePlayer].score) {
+          pullOneCard(activePlayer);
+        } else if (
+          players[0].score === players[activePlayer].score &&
+          players[0].score > 15
+        ) {
+          playerPass();
+        } else if (
+          players[0].score === players[activePlayer].score &&
+          players[0].score <= 15
+        ) {
+          pullOneCard(activePlayer);
+        } else {
+          playerPass();
+        }
+      }, 1000);
+    }
+  }
 };
 
 // Game finish
 const gameFinish = (winner, message) => {
   resultModal.classList.add("game__result--show");
-  if (winner !== null) {
+  if (winner === "Croupier") {
+    resultModal.classList.add("game__result--red");
+    resultModal.firstElementChild.innerHTML = `
+    You Lost!
+    The winner is ${winner} </br>
+     ${message}
+  `;
+  } else if (winner !== null) {
     resultModal.firstElementChild.innerHTML = `
       The winner is ${winner} </br>
        ${message}
@@ -265,7 +299,7 @@ const updatePlayerInputs = (e) => {
 
 // Start new game
 const startNewGame = async () => {
-  // Restart starting data
+  // Restart data
   players = [];
   lostArray = [];
   passArray = [];
@@ -281,6 +315,19 @@ const startNewGame = async () => {
       cardsNum: 0,
     };
     players.push(player);
+
+    // Add casino croupier player if single player
+    if (playersCount === 1) {
+      const playerCpu = {
+        id: 1,
+        name: "Croupier",
+        score: 0,
+        cardsNum: 0,
+      };
+      players.push(playerCpu);
+      document.getElementById(`player-1-position-name`).textContent =
+        "Casino Croupier";
+    }
 
     // Update player names on board
     const playerStation = document.getElementById(`player-${i}-position-name`);

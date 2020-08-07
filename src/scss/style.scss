@@ -318,6 +318,10 @@ body {
       display: flex;
     }
 
+    &--red {
+      background-color: red;
+    }
+
     &-text {
       line-height: 100%;
       display: block;
