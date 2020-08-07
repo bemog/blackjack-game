@@ -7,13 +7,13 @@ const startScreen = document.getElementById("start-screen");
 const setPlayersNumber = document.getElementById("players-number");
 const playersForm = document.getElementById("info-control");
 
-let cardsDeckId;
-let playersNumber = 1;
-let activePlayer;
-let gameOn = true;
-let players = [];
-let lostArray = [];
-let passArray = [];
+let cardsDeckId,
+  activePlayer,
+  playersCount = 1,
+  gameOn = true,
+  players = [],
+  lostArray = [],
+  passArray = [];
 
 // Get new cards deck id from API
 const getNewCardsDeck = async () => {
@@ -64,20 +64,17 @@ const checkScore = () => {
     // Check if to much points
   } else if (players[activePlayer].score > 21) {
     lostArray.push(players[activePlayer]);
-    document
-      .getElementById(`cards-${activePlayer}`)
-      .parentElement.classList.remove("game__player--active");
     setStatus(activePlayer, "lost", "Defeat");
     setActiveNextPlayer();
   }
   // Check passed scores
   if (lostArray.length + passArray.length === players.length) {
-    const highestScore = Math.max(...passArray);
     let duplicate = 0;
-    passArray.forEach((score) => {
-      score === highestScore ? duplicate++ : null;
-    });
+    const highestScore = Math.max(...passArray);
     // Check if draw
+    passArray.forEach((passedScore) => {
+      passedScore === highestScore ? duplicate++ : null;
+    });
     if (duplicate > 1) {
       players.forEach((player) => {
         if (player.score < highestScore) {
@@ -89,7 +86,7 @@ const checkScore = () => {
       gameFinish(null, "It's a draw!");
       // Check if biggest score
     } else {
-      const highestIndex = players.findIndex((player) => {
+      const highestScorePlayer = players.findIndex((player) => {
         return player.score === highestScore;
       });
       players.forEach((player) => {
@@ -97,8 +94,8 @@ const checkScore = () => {
           setStatus(player.id, "lost", "Defeat");
         }
       });
-      setStatus(highestIndex, "win", "Winner!");
-      gameFinish(players[highestIndex].name, "Highest score!");
+      setStatus(highestScorePlayer, "win", "Winner!");
+      gameFinish(players[highestScorePlayer].name, "Highest score!");
     }
     // Check if last man standing
   } else if (lostArray.length === players.length - 1 && players.length > 1) {
@@ -170,9 +167,11 @@ const pullOneCard = async () => {
       players[activePlayer].score += points;
       players[activePlayer].cardsNum++;
       // Update player panel DOM
+      // Update score
       document.getElementById(
         `score-${activePlayer}`
       ).textContent = `Points: ${players[activePlayer].score}/21`;
+      // Create new card element
       const newCard = document.createElement("div");
       newCard.innerHTML = `
       <div class="game__player-cards-card">
@@ -192,6 +191,7 @@ const pullOneCard = async () => {
         </div>
       </div>
       `;
+      // Add new card to DOM
       document.getElementById(`cards-${activePlayer}`).appendChild(newCard);
 
       checkScore();
@@ -200,6 +200,7 @@ const pullOneCard = async () => {
 
 // Pull two starting cards
 const pullStartCards = () => {
+  // Check if player has no cards and game is not finished
   if (players[activePlayer].score === 0 && gameOn) {
     // Pull first card
     pullOneCard(activePlayer);
@@ -211,7 +212,7 @@ const pullStartCards = () => {
 };
 
 // Clear UI when restart
-const clearDOM = () => {
+const clearUI = () => {
   for (i = 0; i < players.length; i++) {
     let classNumber;
     switch (i) {
@@ -228,27 +229,29 @@ const clearDOM = () => {
         classNumber = "four";
         break;
     }
-
+    // Hide start screen
     startScreen.classList.add("start-screen--hide");
-
+    // Clear player cards
     const playerInfo = document.getElementById(`cards-${i}`);
     playerInfo.parentElement.className = `game__player game__player-${classNumber}`;
     playerInfo.innerHTML = "";
-
+    // Clear player status and points
     document.getElementById(`status-${i}`).textContent = "In game";
     document.getElementById(`score-${i}`).textContent = "Points: 0/21";
-
+    // Hide and clear finish results modal
     const resultModal = document.getElementById("game-result");
     resultModal.classList.remove("game__result--show");
     resultModal.firstElementChild.innerHTML = "";
   }
 };
 
-// Update starting screen player inputs
+// Update starting screen player name inputs
 const updatePlayerInputs = (e) => {
+  // Clear container with inputs
   playersForm.innerHTML = "";
-  playersNumber = +e.target.value;
-  for (i = 0; i < playersNumber; i++) {
+  // Create as much inputs as sets in number input
+  playersCount = +e.target.value;
+  for (i = 0; i < playersCount; i++) {
     playersForm.innerHTML += `
     <input
     class="start-screen__info-control-input"
@@ -262,13 +265,14 @@ const updatePlayerInputs = (e) => {
 
 // Start new game
 const startNewGame = async () => {
+  // Restart starting data
   players = [];
   lostArray = [];
   passArray = [];
   gameOn = true;
 
-  // Create new players objects
-  for (i = 0; i < playersNumber; i++) {
+  // Create new players objects and push them to players table
+  for (i = 0; i < playersCount; i++) {
     const name = document.getElementById(`player${i}-name`).value;
     const player = {
       id: i,
@@ -284,7 +288,7 @@ const startNewGame = async () => {
   }
 
   // Clear UI before start new game
-  clearDOM();
+  clearUI();
 
   // Set first player active
   activePlayer = 0;
@@ -293,6 +297,7 @@ const startNewGame = async () => {
   // Get cards deck number from API
   cardsDeckId = await getNewCardsDeck();
 
+  // Pull starting cards for first player
   pullStartCards();
 };
 
@@ -310,6 +315,7 @@ btnPass.addEventListener("click", playerPass);
 btnStart.addEventListener("click", startNewGame);
 
 btnRestart.addEventListener("click", () => {
+  // Hide finish results and start new game
   document.getElementById("game-result").classList.remove("game__result--show");
   startNewGame();
 });
