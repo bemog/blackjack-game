@@ -214,6 +214,9 @@ body {
     justify-content: center;
     align-items: center;
     position: relative; }
+    .game__cards-pool--disable {
+      pointer-events: none;
+      opacity: 0.4; }
     .game__cards-pool-image {
       height: 100px;
       cursor: pointer;
@@ -232,6 +235,9 @@ body {
     transform: translateX(-50%);
     transition: 0.2s;
     z-index: 0; }
+    .game__button-pass--disable {
+      pointer-events: none;
+      opacity: 0.4; }
     .game__button-pass:hover {
       background-color: #14823b;
       color: white; }

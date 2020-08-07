@@ -284,6 +284,9 @@ const clearUI = () => {
     const resultModal = document.getElementById("game-result");
     resultModal.classList.remove("game__result--show");
     resultModal.firstElementChild.innerHTML = "";
+    // Enable buttons
+    btnPass.classList.remove("game__button-pass--disable");
+    cardsPool.classList.remove("game__cards-pool--disable");
   }
 };
 
@@ -367,6 +370,11 @@ const startNewGame = async () => {
 const playerPass = () => {
   setStatus(activePlayer, "pass", "Passed");
   passArray.push(players[activePlayer].score);
+  // Disable buttons if it is cpu croupier turn
+  if (playersCount === 1) {
+    btnPass.classList.add("game__button-pass--disable");
+    cardsPool.classList.add("game__cards-pool--disable");
+  }
   checkScore();
   setActiveNextPlayer();
 };
