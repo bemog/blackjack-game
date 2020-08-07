@@ -125,7 +125,6 @@ const checkScore = () => {
     setStatus(activePlayer, "win", "Winner!");
     gameFinish(players[activePlayer].name, "Last man standing!");
   }
-
   // Check if next player is a casino croupier
   if (
     players[activePlayer].name === "Croupier" &&
@@ -138,6 +137,7 @@ const checkScore = () => {
 // Game finish
 const gameFinish = (winner, message) => {
   resultModal.classList.add("game__result--show");
+  // Direct win message to player in singleplayer mode
   if (winner === "Croupier") {
     resultModal.classList.add("game__result--red");
     resultModal.firstElementChild.innerHTML = `
@@ -145,17 +145,20 @@ const gameFinish = (winner, message) => {
     </br>
      ${message}
   `;
+    // Direct lose message to player in singleplayer mode
   } else if (winner !== null && playersCount === 1) {
     resultModal.firstElementChild.innerHTML = `
     You Won!
     </br>
      ${message}
   `;
+    // Point the winner
   } else if (winner !== null) {
     resultModal.firstElementChild.innerHTML = `
       The winner is ${winner} </br>
        ${message}
     `;
+    // Show drow message
   } else {
     resultModal.firstElementChild.textContent = `
      ${message}
@@ -304,15 +307,18 @@ const updatePlayerInputs = (e) => {
   playersForm.innerHTML = "";
   // Create as much player name inputs as sets in number input
   playersCount = +e.target.value;
-  for (i = 0; i < playersCount; i++) {
-    playersForm.innerHTML += `
-    <input
-    class="start-screen__info-control-input"
-    type="text"
-    name="player${i}-name"
-    id="player${i}-name"
-    value="Player ${i + 1}"/>
-    `;
+  // Prevent from set up more than 4 or less than 1 players
+  if (playersCount >= 1 && playersCount <= 4) {
+    for (i = 0; i < playersCount; i++) {
+      playersForm.innerHTML += `
+      <input
+      class="start-screen__info-control-input"
+      type="text"
+      name="player${i}-name"
+      id="player${i}-name"
+      value="Player ${i + 1}"/>
+      `;
+    }
   }
 };
 
