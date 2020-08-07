@@ -143,6 +143,7 @@ const gameFinish = (winner, message) => {
     resultModal.firstElementChild.innerHTML = `
     You Lost!
     </br>
+    </br>
      ${message}
   `;
     // Direct lose message to player in singleplayer mode
@@ -150,12 +151,15 @@ const gameFinish = (winner, message) => {
     resultModal.firstElementChild.innerHTML = `
     You Won!
     </br>
+    </br>
      ${message}
   `;
     // Point the winner
   } else if (winner !== null) {
     resultModal.firstElementChild.innerHTML = `
-      The winner is ${winner} </br>
+      The winner is ${winner} 
+      </br>
+      </br>
        ${message}
     `;
     // Show drow message

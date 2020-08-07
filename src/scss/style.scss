@@ -271,11 +271,11 @@ body {
     &--lost {
       opacity: 0.5;
       .game__player-name::after {
-        background-color: red;
+        background-color: $primary-color;
       }
       .game__player-status {
         font-weight: bold;
-        color: red;
+        color: $primary-color;
       }
     }
   }
@@ -340,8 +340,8 @@ body {
     height: 250px;
     width: 250px;
     transform: translate(-50%, -50%);
-    background-color: $secondary-color;
-    border-radius: 20px;
+    background-color: darken($secondary-color, 15%);
+    border-radius: 60px;
     box-shadow: 0 0 5px 1px black;
     color: white;
     display: flex;
@@ -350,32 +350,47 @@ body {
     align-items: center;
     z-index: 1;
     display: none;
+    animation: showResult 0.4s linear forwards;
+
+    &-button-restart {
+      font-size: 1rem;
+      font-weight: bold;
+      transition: 0.2s;
+    }
 
     &-text {
       margin-top: 10px;
       text-align: center;
     }
 
-    &-button-restart {
-      font-weight: bold;
-      transition: 0.2s;
-      &:hover {
-        background-color: white;
-        color: $secondary-color;
+    &--show {
+      display: flex;
+
+      .game__result-button-restart {
+        border: 2px solid white;
+        color: white;
+        &:hover {
+          background-color: darken($secondary-color, 20%);
+        }
       }
     }
 
-    &--show {
-      display: flex;
-    }
-
     &--red {
-      background-color: red;
+      color: white;
+      background-color: darken($primary-color, 5%);
+
+      .game__result-button-restart {
+        border: 2px solid white;
+        color: white;
+        &:hover {
+          background-color: white;
+          color: $primary-color;
+        }
+      }
     }
 
     &-text {
-      line-height: 100%;
-      display: block;
+      font-size: 1.2rem;
     }
   }
 }
@@ -432,5 +447,15 @@ body {
   100% {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes showResult {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
   }
 }

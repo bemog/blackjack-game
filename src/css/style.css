@@ -134,7 +134,7 @@ body {
         letter-spacing: 1px;
         transition: 0.3s; }
         .start-screen__info-control-button:hover {
-          background-color: #14823b;
+          background-color: #56a662;
           color: white; }
 
 .game {
@@ -233,10 +233,10 @@ body {
     .game__player--lost {
       opacity: 0.5; }
       .game__player--lost .game__player-name::after {
-        background-color: red; }
+        background-color: #a60303; }
       .game__player--lost .game__player-status {
         font-weight: bold;
-        color: red; }
+        color: #a60303; }
   .game__cards-pool {
     grid-column-start: 2;
     grid-column-end: 2;
@@ -272,7 +272,7 @@ body {
       pointer-events: none;
       opacity: 0.4; }
     .game__button-pass:hover {
-      background-color: #14823b;
+      background-color: #56a662;
       color: white; }
   .game__result {
     position: absolute;
@@ -281,8 +281,8 @@ body {
     height: 250px;
     width: 250px;
     transform: translate(-50%, -50%);
-    background-color: #14823b;
-    border-radius: 20px;
+    background-color: #3c7444;
+    border-radius: 60px;
     box-shadow: 0 0 5px 1px black;
     color: white;
     display: flex;
@@ -290,23 +290,33 @@ body {
     justify-content: space-evenly;
     align-items: center;
     z-index: 1;
-    display: none; }
+    display: none;
+    animation: showResult 0.4s linear forwards; }
+    .game__result-button-restart {
+      font-size: 1rem;
+      font-weight: bold;
+      transition: 0.2s; }
     .game__result-text {
       margin-top: 10px;
       text-align: center; }
-    .game__result-button-restart {
-      font-weight: bold;
-      transition: 0.2s; }
-      .game__result-button-restart:hover {
-        background-color: white;
-        color: #14823b; }
     .game__result--show {
       display: flex; }
+      .game__result--show .game__result-button-restart {
+        border: 2px solid white;
+        color: white; }
+        .game__result--show .game__result-button-restart:hover {
+          background-color: #33633a; }
     .game__result--red {
-      background-color: red; }
+      color: white;
+      background-color: #8d0303; }
+      .game__result--red .game__result-button-restart {
+        border: 2px solid white;
+        color: white; }
+        .game__result--red .game__result-button-restart:hover {
+          background-color: white;
+          color: #a60303; }
     .game__result-text {
-      line-height: 100%;
-      display: block; }
+      font-size: 1.2rem; }
 
 @keyframes blink {
   0% {
@@ -341,3 +351,9 @@ body {
   100% {
     opacity: 1;
     transform: scale(1); } }
+
+@keyframes showResult {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
