@@ -26,7 +26,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 i {
   margin-right: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 2px;
   vertical-align: bottom;
   font-size: 1.7rem; }
 
@@ -101,6 +101,7 @@ body {
     .start-screen__info--grow {
       animation: grow 0.5s linear forwards; }
     .start-screen__info-text {
+      margin-top: 5px;
       text-align: center;
       color: white; }
     .start-screen__info-control {
@@ -112,7 +113,7 @@ body {
       text-align: center;
       position: relative; }
       .start-screen__info-control-input {
-        padding: 7px;
+        padding: 5px;
         margin: 10px auto 0;
         width: 200px;
         border-radius: 5px;
