@@ -38,6 +38,29 @@ const setStatus = (playerIndex, playerStatus, playerMessage) => {
   ).textContent = `${playerMessage}`;
 };
 
+// Croupier's action with delay
+const croupierCpuAction = () => {
+  if (gameOn) {
+    setTimeout(() => {
+      if (players[0].score > players[activePlayer].score) {
+        pullOneCard(activePlayer);
+      } else if (
+        players[0].score === players[activePlayer].score &&
+        players[0].score > 15
+      ) {
+        playerPass();
+      } else if (
+        players[0].score === players[activePlayer].score &&
+        players[0].score <= 15
+      ) {
+        pullOneCard(activePlayer);
+      } else {
+        playerPass();
+      }
+    }, 1000);
+  }
+};
+
 // Check score
 const checkScore = () => {
   // Check if double ace
@@ -108,26 +131,7 @@ const checkScore = () => {
     players[activePlayer].name === "Croupier" &&
     players[activePlayer].cardsNum > 1
   ) {
-    // Croupier's action with delay
-    if (gameOn) {
-      setTimeout(() => {
-        if (players[0].score > players[activePlayer].score) {
-          pullOneCard(activePlayer);
-        } else if (
-          players[0].score === players[activePlayer].score &&
-          players[0].score > 15
-        ) {
-          playerPass();
-        } else if (
-          players[0].score === players[activePlayer].score &&
-          players[0].score <= 15
-        ) {
-          pullOneCard(activePlayer);
-        } else {
-          playerPass();
-        }
-      }, 1000);
-    }
+    croupierCpuAction();
   }
 };
 
@@ -268,6 +272,10 @@ const clearUI = () => {
     // Clear player cards
     const playerInfo = document.getElementById(`cards-${i}`);
     playerInfo.parentElement.className = `game__player game__player-${classNumber}`;
+
+    if (i === 1 && playersCount <= 2) {
+      playerInfo.parentElement.classList.add("game__player-two--duel");
+    }
     playerInfo.innerHTML = "";
     // Clear player status and points
     document.getElementById(`status-${i}`).textContent = "In game";
@@ -283,7 +291,7 @@ const clearUI = () => {
 const updatePlayerInputs = (e) => {
   // Clear container with inputs
   playersForm.innerHTML = "";
-  // Create as much inputs as sets in number input
+  // Create as much player name inputs as sets in number input
   playersCount = +e.target.value;
   for (i = 0; i < playersCount; i++) {
     playersForm.innerHTML += `
@@ -304,6 +312,13 @@ const startNewGame = async () => {
   lostArray = [];
   passArray = [];
   gameOn = true;
+
+  // Change players positions if there is only 2 players
+  if (playersCount <= 2) {
+    document
+      .getElementById("player-1-position")
+      .classList.add("game__player-two--duel");
+  }
 
   // Create new players objects and push them to players table
   for (i = 0; i < playersCount; i++) {

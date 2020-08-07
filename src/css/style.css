@@ -129,6 +129,11 @@ body {
       grid-column-end: 3;
       grid-row-start: 2;
       grid-row-end: 2; }
+      .game__player-two--duel {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row-start: 1;
+        grid-row-end: 1; }
     .game__player-three {
       grid-column-start: 1;
       grid-column-end: 4;
