@@ -436,7 +436,9 @@ body {
       position: absolute;
       top: 50%;
       left: 75%;
-      transform: translate(-50%, -50%); } }
+      transform: translate(-50%, -50%); }
+    .game__result {
+      z-index: 3; } }
 
 @media (orientation: portrait) and (max-width: 499px) {
   body {
@@ -490,3 +492,105 @@ body {
       left: 65%;
       transform: translateY(-50%);
       font-size: 0.8rem; } }
+
+@media (orientation: landscape) and (max-height: 750px) {
+  body {
+    height: 100vh;
+    width: 100%; }
+  .title {
+    margin: 10px 0 0 0;
+    font-size: 1rem; }
+  .wrapper {
+    padding: 5px;
+    height: 90%;
+    width: 90%;
+    background-color: rgba(20, 130, 59, 0.1);
+    border-radius: 20px; }
+    .wrapper--show {
+      animation: none; }
+  .start-screen__info {
+    padding: 10px;
+    height: 90%;
+    width: 60%; }
+    .start-screen__info--grow {
+      animation: none; }
+    .start-screen__info-title {
+      font-size: 1.5rem; }
+    .start-screen__info-text {
+      font-size: 1rem; }
+    .start-screen__info-control-input {
+      padding: 5px;
+      margin: 10px auto 0;
+      width: 150px;
+      font-size: 0.9rem; }
+      .start-screen__info-control-input-players {
+        margin-top: 12px;
+        width: 30px; }
+  .game {
+    grid-template-rows: 1fr 0.25fr 0.25fr 1fr;
+    grid-template-columns: 1fr 0.25fr 1fr; }
+    .game__player-one {
+      grid-column-start: 1;
+      grid-column-end: 1;
+      grid-row-start: 1;
+      grid-row-end: 3; }
+    .game__player-two {
+      grid-column-start: 3;
+      grid-column-end: 3;
+      grid-row-start: 1;
+      grid-row-end: 3; }
+      .game__player-two--duel {
+        grid-column-start: 3;
+        grid-column-end: 3;
+        grid-row-start: 4;
+        grid-row-end: 5; }
+    .game__player-three {
+      grid-column-start: 3;
+      grid-column-end: 3;
+      grid-row-start: 3;
+      grid-row-end: 5; }
+    .game__player-four {
+      grid-column-start: 1;
+      grid-column-end: 1;
+      grid-row-start: 3;
+      grid-row-end: 5; }
+    .game__player-cards {
+      margin: 5px;
+      min-height: 30px; }
+      .game__player-cards-card {
+        margin: 2px;
+        height: 60px;
+        width: 40px; }
+    .game__player-name {
+      font-size: 1rem; }
+    .game__player-status {
+      font-size: 0.8rem; }
+    .game__player-score {
+      font-size: 0.9rem; }
+    .game__cards-pool {
+      grid-column-start: 2;
+      grid-column-end: 2;
+      grid-row-start: 2;
+      grid-row-end: 4; }
+      .game__cards-pool-image {
+        height: 60px; }
+        .game__cards-pool-image-lower {
+          height: 60px; }
+    .game__button-pass {
+      padding: 5px;
+      width: 50px;
+      top: 65%;
+      left: 50%;
+      transform: translateX(-50%); }
+    .game__result {
+      height: 200px;
+      width: 200px;
+      transform: translate(-50%, -50%);
+      border-radius: 30px;
+      z-index: 3;
+      animation: showResult 0.4s linear forwards; }
+      .game__result-button-restart {
+        font-size: 0.8rem; }
+      .game__result-text {
+        margin-top: 5px;
+        font-size: 1rem; } }
