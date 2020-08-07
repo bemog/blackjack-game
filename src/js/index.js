@@ -247,6 +247,9 @@ const pullOneCard = async () => {
       checkScore();
     });
 };
+{
+  /* <div class="game__player-cards-card"></div> */
+}
 
 // Pull two starting cards
 const pullStartCards = () => {
