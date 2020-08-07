@@ -111,6 +111,7 @@ body {
 
         &-players {
           padding: 7px;
+          margin-left: 10px;
           margin-top: 20px;
           width: 40px;
           border-radius: 5px;
@@ -460,3 +461,5 @@ body {
     opacity: 1;
   }
 }
+
+@import "_mediaq.scss";

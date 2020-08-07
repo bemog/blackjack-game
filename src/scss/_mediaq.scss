@@ -1,0 +1,190 @@
+@media (orientation: portrait) and (max-width: 700px) {
+  body {
+    justify-content: center;
+  }
+
+  .title {
+    margin: 10px 0 0 0;
+    font-size: 1.5rem;
+  }
+
+  .wrapper {
+    padding: 0 10px;
+    max-height: 100vh;
+    border-radius: 50px;
+  }
+
+  .start-screen__info {
+    height: 400px;
+    width: 90%;
+  }
+
+  .game {
+    grid-template-rows: 1fr 1fr 0.8fr 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
+    &__player {
+      position: relative;
+      &-one {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row-start: 1;
+        grid-row-end: 1;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      }
+      &-two {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row-start: 2;
+        grid-row-end: 2;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+
+        &--duel {
+          grid-column-start: 1;
+          grid-column-end: 4;
+          grid-row-start: 2;
+          grid-row-end: 2;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+      }
+      &-three {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row-start: 4;
+        grid-row-end: 4;
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
+      }
+      &-four {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row-start: 5;
+        grid-row-end: 5;
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
+      }
+      &-score {
+        position: absolute;
+        top: 18%;
+        left: 10%;
+      }
+      &-status {
+        position: absolute;
+        top: 18%;
+        right: 10%;
+      }
+      &-cards {
+        padding: 0;
+        min-height: 65px;
+        &-card {
+          height: 60px;
+          width: 40px;
+        }
+      }
+    }
+    &__cards-pool {
+      grid-column-start: 1;
+      grid-column-end: 4;
+      grid-row-start: 3;
+      grid-row-end: 3;
+      &-image {
+        height: 60px;
+        &-lower {
+          height: 60px;
+        }
+      }
+    }
+    &__button-pass {
+      position: absolute;
+      top: 50%;
+      left: 75%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+
+@media (orientation: portrait) and (max-width: 499px) {
+  body {
+    height: 100vh;
+    width: 100%;
+    background-position: center;
+  }
+
+  .wrapper {
+    height: 90%;
+    width: 90%;
+
+    &--show {
+      animation: show 0.5s linear forwards;
+    }
+  }
+
+  .start-screen {
+    &__info {
+      width: 90%;
+
+      &--grow {
+        animation: none;
+      }
+
+      &-text {
+        font-size: 1rem;
+      }
+
+      &-control {
+        margin-top: 20px;
+        &-input {
+          width: 150px;
+          font-size: 0.9rem;
+
+          &-players {
+            padding: 4px;
+          }
+        }
+        &-button {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+
+  .game {
+    grid-template-rows: 1fr 1fr 0.5fr 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
+
+    &__player {
+      &-name {
+        font-size: 1rem;
+      }
+
+      &-score {
+        top: 18%;
+        left: 5%;
+        font-size: 0.8rem;
+      }
+
+      &-status {
+        top: 19%;
+        right: 10%;
+        font-size: 0.8rem;
+      }
+
+      &-cards {
+        margin: 5px 0 0 0;
+        min-height: 60px;
+
+        &-card {
+          margin: 2px;
+          height: 60px;
+          width: 40px;
+        }
+      }
+    }
+
+    &__button-pass {
+      padding: 5px;
+      width: 50px;
+      top: 50%;
+      left: 65%;
+      transform: translateY(-50%);
+      font-size: 0.8rem;
+    }
+  }
+}
