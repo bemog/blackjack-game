@@ -1,5 +1,3 @@
-const regeneratorRuntime = require("regenerator-runtime");
-
 const btnPass = document.getElementById("btn-pass");
 const btnStart = document.getElementById("btn-start");
 const btnRestart = document.getElementById("btn-restart");
