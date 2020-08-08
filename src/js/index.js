@@ -229,7 +229,7 @@ const pullOneCard = async () => {
         <div class="game__player-cards-card-inner">
           <div class="game__player-cards-card-inner-front">
           <img class="game__player-cards-card-inner-front-image"
-          src="./image/card-pool.png"
+          src="./src/image/card-pool.png"
           />
           </div>
           <div class="game__player-cards-card-inner-back">
@@ -247,9 +247,6 @@ const pullOneCard = async () => {
       checkScore();
     });
 };
-{
-  /* <div class="game__player-cards-card"></div> */
-}
 
 // Pull two starting cards
 const pullStartCards = () => {
