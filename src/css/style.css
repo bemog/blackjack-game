@@ -52,6 +52,19 @@ body {
 .title {
   margin: 15px 0; }
 
+.button-settings {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  padding: 5px 5px;
+  transition: 0.2s; }
+  .button-settings:hover {
+    background-color: #56a662;
+    color: white; }
+  .button-settings i {
+    margin-left: 5px;
+    font-size: 1.2rem; }
+
 .wrapper {
   padding: 10px;
   height: 800px;
