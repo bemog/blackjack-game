@@ -27,39 +27,39 @@
       &-one {
         grid-column-start: 1;
         grid-column-end: 4;
-        grid-row-start: 1;
-        grid-row-end: 1;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        grid-row-start: 5;
+        grid-row-end: 5;
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
       }
       &-two {
-        grid-column-start: 1;
-        grid-column-end: 4;
-        grid-row-start: 2;
-        grid-row-end: 2;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-
-        &--duel {
-          grid-column-start: 1;
-          grid-column-end: 4;
-          grid-row-start: 5;
-          grid-row-end: 5;
-          border-top: 1px solid rgba(255, 255, 255, 0.3);
-          border-bottom: none;
-        }
-      }
-      &-three {
         grid-column-start: 1;
         grid-column-end: 4;
         grid-row-start: 4;
         grid-row-end: 4;
         border-top: 1px solid rgba(255, 255, 255, 0.3);
+
+        &--duel {
+          grid-column-start: 1;
+          grid-column-end: 4;
+          grid-row-start: 1;
+          grid-row-end: 1;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+          border-top: none;
+        }
+      }
+      &-three {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row-start: 2;
+        grid-row-end: 2;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
       }
       &-four {
         grid-column-start: 1;
         grid-column-end: 4;
-        grid-row-start: 5;
-        grid-row-end: 5;
-        border-top: 1px solid rgba(255, 255, 255, 0.3);
+        grid-row-start: 1;
+        grid-row-end: 1;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
       }
       &-score {
         position: absolute;
