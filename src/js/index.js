@@ -1,6 +1,7 @@
 const btnPass = document.getElementById("btn-pass");
 const btnStart = document.getElementById("btn-start");
 const btnRestart = document.getElementById("btn-restart");
+const btnSettings = document.getElementById("btn-settings");
 const cardsPool = document.getElementById("cards-pool");
 const resultModal = document.getElementById("game-result");
 const startScreen = document.getElementById("start-screen");
@@ -419,6 +420,19 @@ btnRestart.addEventListener("click", () => {
   // Hide finish results and start new game
   document.getElementById("game-result").classList.remove("game__result--show");
   startNewGame();
+});
+
+btnSettings.addEventListener("click", () => {
+  // Show starting screen to change players
+  const startInfo = document.getElementById("start-screen-info");
+  startInfo.classList.remove("start-screen__info--grow");
+  document.getElementById("wrapper").classList.remove("wrapper--show");
+  startScreen.classList.remove("start-screen--hide");
+  // Hide players stations before insert new players
+  const playersStations = document.querySelectorAll(".game__player");
+  playersStations.forEach((player) => {
+    player.classList.add("game__player--hide");
+  });
 });
 
 cardsPool.addEventListener("click", () => {
