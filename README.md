@@ -15,8 +15,8 @@ Cards game for 1-4 players based on popular blackjack game. In singleplayer mode
 
 How to play:
 Player wins when:
--gets 21 points from his cards,
 -pulls double ace at start,
+-has 21 pts. at the end,
 -has biggest score at the end (lower than 21),
 -everyone else have more than 21 pts.
 
