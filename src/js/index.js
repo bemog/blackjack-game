@@ -62,7 +62,6 @@ const croupierCpuAction = () => {
   }
 };
 
-// Check score
 const checkScore = () => {
   // Check if double ace
   if (
@@ -76,16 +75,6 @@ const checkScore = () => {
     });
     setStatus(activePlayer, "win", "Winner!");
     gameFinish(players[activePlayer].name, "Double Ace!");
-    // Check if blackjack
-  } else if (players[activePlayer].score === 21) {
-    players.forEach((player) => {
-      if (player.id !== activePlayer) {
-        setStatus(player.id, "lost", "Defeat");
-      }
-    });
-    setStatus(activePlayer, "win", "Winner!");
-    gameFinish(players[activePlayer].name, "21 pts - Blackjack!");
-    // Check if to much points
   } else if (players[activePlayer].score > 21) {
     lostArray.push(players[activePlayer]);
     setStatus(activePlayer, "lost", "Defeat");
@@ -119,7 +108,11 @@ const checkScore = () => {
         }
       });
       setStatus(highestScorePlayer, "win", "Winner!");
-      gameFinish(players[highestScorePlayer].name, "Highest score!");
+      if (highestScore === 21) {
+        gameFinish(players[highestScorePlayer].name, "21 pts - Blackjack!");
+      } else {
+        gameFinish(players[highestScorePlayer].name, "Highest score!");
+      }
     }
     // Check if last man standing
   } else if (lostArray.length === players.length - 1 && players.length > 1) {
@@ -135,7 +128,7 @@ const checkScore = () => {
   }
 };
 
-// Game finish
+// Game finish with winner announce
 const gameFinish = (winner, message) => {
   resultModal.classList.add("game__result--show");
   // Direct win message to player in singleplayer mode
@@ -163,7 +156,7 @@ const gameFinish = (winner, message) => {
       </br>
        ${message}
     `;
-    // Show drow message
+    // Show draw message
   } else {
     resultModal.firstElementChild.textContent = `
      ${message}
@@ -172,7 +165,6 @@ const gameFinish = (winner, message) => {
   gameOn = false;
 };
 
-// Set active player
 const setActiveNextPlayer = () => {
   activePlayer++;
   // Remove class active
@@ -253,9 +245,7 @@ const pullOneCard = async () => {
 const pullStartCards = () => {
   // Check if player has no cards and game is not finished
   if (players[activePlayer].score === 0 && gameOn) {
-    // Pull first card
     pullOneCard(activePlayer);
-    // Pull second card with delay
     setTimeout(() => {
       pullOneCard(activePlayer);
     }, 800);
@@ -330,9 +320,7 @@ const updatePlayerInputs = (e) => {
   }
 };
 
-// Start new game
 const startNewGame = async () => {
-  // Restart data
   players = [];
   lostArray = [];
   passArray = [];
@@ -374,17 +362,14 @@ const startNewGame = async () => {
     playerStation.textContent = name;
   }
 
-  // Clear UI before start new game
   clearUI();
 
   // Set first player active
   activePlayer = 0;
   setStatus(activePlayer, "active", "In game");
 
-  // Get cards deck number from API
   cardsDeckId = await getNewCardsDeck();
 
-  // Pull starting cards for first player
   pullStartCards();
 };
 
