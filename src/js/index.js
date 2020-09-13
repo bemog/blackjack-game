@@ -1,12 +1,12 @@
-const btnPass = document.getElementById("btn-pass");
-const btnStart = document.getElementById("btn-start");
-const btnRestart = document.getElementById("btn-restart");
-const btnSettings = document.getElementById("btn-settings");
-const cardsPool = document.getElementById("cards-pool");
-const resultModal = document.getElementById("game-result");
-const startScreen = document.getElementById("start-screen");
-const setPlayersNumber = document.getElementById("players-number");
-const playersForm = document.getElementById("info-control");
+const btnPass = document.getElementById('btn-pass');
+const btnStart = document.getElementById('btn-start');
+const btnRestart = document.getElementById('btn-restart');
+const btnSettings = document.getElementById('btn-settings');
+const cardsPool = document.getElementById('cards-pool');
+const resultModal = document.getElementById('game-result');
+const startScreen = document.getElementById('start-screen');
+const setPlayersNumber = document.getElementById('players-number');
+const playersForm = document.getElementById('info-control');
 
 let cardsDeckId,
   activePlayer,
@@ -19,7 +19,7 @@ let cardsDeckId,
 // Get new cards deck id from API
 const getNewCardsDeck = async () => {
   let cardsDeckId = await fetch(
-    "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1"
+    'https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1'
   )
     .then((response) => response.json())
     .then((data) => {
@@ -70,15 +70,17 @@ const checkScore = () => {
   ) {
     players.forEach((player) => {
       if (player.id !== activePlayer) {
-        setStatus(player.id, "lost", "Defeat");
+        setStatus(player.id, 'lost', 'Defeat');
       }
     });
-    setStatus(activePlayer, "win", "Winner!");
-    gameFinish(players[activePlayer].name, "Double Ace!");
+    setStatus(activePlayer, 'win', 'Winner!');
+    gameFinish(players[activePlayer].name, 'Double Ace!');
   } else if (players[activePlayer].score > 21) {
     lostArray.push(players[activePlayer]);
-    setStatus(activePlayer, "lost", "Defeat");
+    setStatus(activePlayer, 'lost', 'Defeat');
     setActiveNextPlayer();
+  } else if (players[activePlayer].score === 21) {
+    playerPass();
   }
   // Check passed scores
   if (lostArray.length + passArray.length === players.length) {
@@ -91,9 +93,9 @@ const checkScore = () => {
     if (duplicate > 1) {
       players.forEach((player) => {
         if (player.score < highestScore) {
-          setStatus(player.id, "lost", "Defeat");
+          setStatus(player.id, 'lost', 'Defeat');
         } else if (player.score === highestScore) {
-          setStatus(player.id, "win", "Draw!");
+          setStatus(player.id, 'win', 'Draw!');
         }
       });
       gameFinish(null, "It's a draw!");
@@ -104,24 +106,24 @@ const checkScore = () => {
       });
       players.forEach((player) => {
         if (player.score !== highestScore) {
-          setStatus(player.id, "lost", "Defeat");
+          setStatus(player.id, 'lost', 'Defeat');
         }
       });
-      setStatus(highestScorePlayer, "win", "Winner!");
+      setStatus(highestScorePlayer, 'win', 'Winner!');
       if (highestScore === 21) {
-        gameFinish(players[highestScorePlayer].name, "21 pts - Blackjack!");
+        gameFinish(players[highestScorePlayer].name, '21 pts - Blackjack!');
       } else {
-        gameFinish(players[highestScorePlayer].name, "Highest score!");
+        gameFinish(players[highestScorePlayer].name, 'Highest score!');
       }
     }
     // Check if last man standing
   } else if (lostArray.length === players.length - 1 && players.length > 1) {
-    setStatus(activePlayer, "win", "Winner!");
-    gameFinish(players[activePlayer].name, "Last man standing!");
+    setStatus(activePlayer, 'win', 'Winner!');
+    gameFinish(players[activePlayer].name, 'Last man standing!');
   }
   // Check if next player is a casino croupier
   if (
-    players[activePlayer].name === "Croupier" &&
+    players[activePlayer].name === 'Croupier' &&
     players[activePlayer].cardsNum > 1
   ) {
     croupierCpuAction();
@@ -130,10 +132,10 @@ const checkScore = () => {
 
 // Game finish with winner announce
 const gameFinish = (winner, message) => {
-  resultModal.classList.add("game__result--show");
+  resultModal.classList.add('game__result--show');
   // Direct win message to player in singleplayer mode
-  if (winner === "Croupier") {
-    resultModal.classList.add("game__result--red");
+  if (winner === 'Croupier') {
+    resultModal.classList.add('game__result--red');
     resultModal.firstElementChild.innerHTML = `
     You Lost!
     </br>
@@ -171,7 +173,7 @@ const setActiveNextPlayer = () => {
   for (i = 0; i < players.length; i++) {
     document
       .getElementById(`cards-${i}`)
-      .parentElement.classList.remove("game__player--active");
+      .parentElement.classList.remove('game__player--active');
   }
   // Check if last man standing
   if (lostArray.length === players.length - 1) {
@@ -179,7 +181,7 @@ const setActiveNextPlayer = () => {
   }
   // Check if there is next player and set him active
   if (activePlayer < players.length) {
-    setStatus(activePlayer, "active", "In game");
+    setStatus(activePlayer, 'active', 'In game');
     pullStartCards();
   }
 };
@@ -192,16 +194,16 @@ const pullOneCard = async () => {
       // Set points value for specific cards
       let points = data.cards[0].value;
       switch (points) {
-        case "ACE":
+        case 'ACE':
           points = 11;
           break;
-        case "KING":
+        case 'KING':
           points = 4;
           break;
-        case "QUEEN":
+        case 'QUEEN':
           points = 3;
           break;
-        case "JACK":
+        case 'JACK':
           points = 2;
           break;
         default:
@@ -216,8 +218,8 @@ const pullOneCard = async () => {
         `score-${activePlayer}`
       ).textContent = `Points: ${players[activePlayer].score}/21`;
       // Create new card element
-      const newCard = document.createElement("div");
-      newCard.className = "game__player-cards-card";
+      const newCard = document.createElement('div');
+      newCard.className = 'game__player-cards-card';
       newCard.innerHTML = `
         <div class="game__player-cards-card-inner">
           <div class="game__player-cards-card-inner-front">
@@ -258,47 +260,47 @@ const clearUI = () => {
     let classNumber;
     switch (i) {
       case 0:
-        classNumber = "one";
+        classNumber = 'one';
         break;
       case 1:
-        classNumber = "two";
+        classNumber = 'two';
         break;
       case 2:
-        classNumber = "three";
+        classNumber = 'three';
         break;
       case 3:
-        classNumber = "four";
+        classNumber = 'four';
         break;
     }
     // Hide start screen
-    startScreen.classList.add("start-screen--hide");
+    startScreen.classList.add('start-screen--hide');
     // Clear player cards
     const playerInfo = document.getElementById(`cards-${i}`);
     playerInfo.parentElement.className = `game__player game__player-${classNumber}`;
 
     if (i === 1 && playersCount <= 2) {
-      playerInfo.parentElement.classList.add("game__player-two--duel");
+      playerInfo.parentElement.classList.add('game__player-two--duel');
     }
-    playerInfo.innerHTML = "";
+    playerInfo.innerHTML = '';
     // Clear player status and points
-    document.getElementById(`status-${i}`).textContent = "In game";
-    document.getElementById(`score-${i}`).textContent = "Points: 0/21";
+    document.getElementById(`status-${i}`).textContent = 'In game';
+    document.getElementById(`score-${i}`).textContent = 'Points: 0/21';
     // Hide and clear finish results modal
-    const resultModal = document.getElementById("game-result");
-    resultModal.classList.remove("game__result--show");
-    resultModal.firstElementChild.innerHTML = "";
+    const resultModal = document.getElementById('game-result');
+    resultModal.classList.remove('game__result--show');
+    resultModal.firstElementChild.innerHTML = '';
     // Enable buttons
-    btnPass.classList.remove("game__button-pass--disable");
-    cardsPool.classList.remove("game__cards-pool--disable");
+    btnPass.classList.remove('game__button-pass--disable');
+    cardsPool.classList.remove('game__cards-pool--disable');
     // Clear red result modal color
-    resultModal.classList.remove("game__result--red");
+    resultModal.classList.remove('game__result--red');
   }
 };
 
 // Update starting screen player name inputs
 const updatePlayerInputs = (e) => {
   // Clear container with inputs
-  playersForm.innerHTML = "";
+  playersForm.innerHTML = '';
   // Create as much player name inputs as sets in number input
   playersCount = +e.target.value;
   // Prevent from set up more than 4 or less than 1 players
@@ -329,8 +331,8 @@ const startNewGame = async () => {
   // Change players positions if there is only 2 players
   if (playersCount <= 2) {
     document
-      .getElementById("player-1-position")
-      .classList.add("game__player-two--duel");
+      .getElementById('player-1-position')
+      .classList.add('game__player-two--duel');
   }
 
   // Create new players objects and push them to players table
@@ -348,13 +350,13 @@ const startNewGame = async () => {
     if (playersCount === 1) {
       const playerCpu = {
         id: 1,
-        name: "Croupier",
+        name: 'Croupier',
         score: 0,
         cardsNum: 0,
       };
       players.push(playerCpu);
       document.getElementById(`player-1-position-name`).textContent =
-        "Casino Croupier";
+        'Casino Croupier';
     }
 
     // Update players names on board
@@ -366,7 +368,7 @@ const startNewGame = async () => {
 
   // Set first player active
   activePlayer = 0;
-  setStatus(activePlayer, "active", "In game");
+  setStatus(activePlayer, 'active', 'In game');
 
   cardsDeckId = await getNewCardsDeck();
 
@@ -375,53 +377,55 @@ const startNewGame = async () => {
 
 // Player pass
 const playerPass = () => {
-  setStatus(activePlayer, "pass", "Passed");
+  setStatus(activePlayer, 'pass', 'Passed');
   passArray.push(players[activePlayer].score);
   // Disable buttons if it is cpu croupier turn
   if (playersCount === 1) {
-    btnPass.classList.add("game__button-pass--disable");
-    cardsPool.classList.add("game__cards-pool--disable");
+    btnPass.classList.add('game__button-pass--disable');
+    cardsPool.classList.add('game__cards-pool--disable');
   }
-  checkScore();
+  if (players[activePlayer].score !== 21) {
+    checkScore();
+  }
   setActiveNextPlayer();
 };
 
 // Event listeners
-btnPass.addEventListener("click", playerPass);
+btnPass.addEventListener('click', playerPass);
 
-btnStart.addEventListener("click", () => {
+btnStart.addEventListener('click', () => {
   // Animate start screen and start new game with delay
-  const startInfo = document.getElementById("start-screen-info");
-  startInfo.classList.add("start-screen__info--grow");
+  const startInfo = document.getElementById('start-screen-info');
+  startInfo.classList.add('start-screen__info--grow');
   setTimeout(() => {
-    document.getElementById("wrapper").classList.add("wrapper--show");
+    document.getElementById('wrapper').classList.add('wrapper--show');
   }, 1000);
   setTimeout(() => {
     startNewGame();
   }, 1000);
 });
 
-btnRestart.addEventListener("click", () => {
+btnRestart.addEventListener('click', () => {
   // Hide finish results and start new game
-  document.getElementById("game-result").classList.remove("game__result--show");
+  document.getElementById('game-result').classList.remove('game__result--show');
   startNewGame();
 });
 
-btnSettings.addEventListener("click", () => {
+btnSettings.addEventListener('click', () => {
   // Show starting screen to change players
-  const startInfo = document.getElementById("start-screen-info");
-  startInfo.classList.remove("start-screen__info--grow");
-  document.getElementById("wrapper").classList.remove("wrapper--show");
-  startScreen.classList.remove("start-screen--hide");
+  const startInfo = document.getElementById('start-screen-info');
+  startInfo.classList.remove('start-screen__info--grow');
+  document.getElementById('wrapper').classList.remove('wrapper--show');
+  startScreen.classList.remove('start-screen--hide');
   // Hide players stations before insert new players
-  const playersStations = document.querySelectorAll(".game__player");
+  const playersStations = document.querySelectorAll('.game__player');
   playersStations.forEach((player) => {
-    player.classList.add("game__player--hide");
+    player.classList.add('game__player--hide');
   });
 });
 
-cardsPool.addEventListener("click", () => {
+cardsPool.addEventListener('click', () => {
   pullOneCard(activePlayer);
 });
 
-setPlayersNumber.addEventListener("change", updatePlayerInputs);
+setPlayersNumber.addEventListener('change', updatePlayerInputs);
