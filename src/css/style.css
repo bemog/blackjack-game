@@ -42,7 +42,7 @@ body {
   color: white;
   overflow: hidden; }
   body::after {
-    content: "";
+    content: '';
     position: absolute;
     height: 100%;
     width: 100%;
@@ -67,7 +67,8 @@ body {
 
 .wrapper {
   padding: 10px;
-  height: 800px;
+  max-height: 800px;
+  height: 88vh;
   max-width: 800px;
   width: 90%;
   background-color: rgba(20, 130, 59, 0.1);
@@ -92,7 +93,7 @@ body {
   z-index: 5;
   transition: 0.3s; }
   .start-screen::after {
-    content: "";
+    content: '';
     position: absolute;
     height: 100%;
     width: 100%;
@@ -228,7 +229,7 @@ body {
     .game__player-name {
       position: relative; }
       .game__player-name::after {
-        content: "";
+        content: '';
         position: absolute;
         top: 4px;
         right: -25px;
@@ -543,25 +544,25 @@ body {
     grid-template-rows: 1fr 0.25fr 0.25fr 1fr;
     grid-template-columns: 1fr 0.25fr 1fr; }
     .game__player-one {
+      grid-column-start: 3;
+      grid-column-end: 3;
+      grid-row-start: 4;
+      grid-row-end: 5; }
+    .game__player-two {
+      grid-column-start: 3;
+      grid-column-end: 4;
+      grid-row-start: 1;
+      grid-row-end: 3; }
+      .game__player-two--duel {
+        grid-column-start: 1;
+        grid-column-end: 1;
+        grid-row-start: 1;
+        grid-row-end: 3; }
+    .game__player-three {
       grid-column-start: 1;
       grid-column-end: 1;
       grid-row-start: 1;
       grid-row-end: 3; }
-    .game__player-two {
-      grid-column-start: 3;
-      grid-column-end: 3;
-      grid-row-start: 1;
-      grid-row-end: 3; }
-      .game__player-two--duel {
-        grid-column-start: 3;
-        grid-column-end: 3;
-        grid-row-start: 4;
-        grid-row-end: 5; }
-    .game__player-three {
-      grid-column-start: 3;
-      grid-column-end: 3;
-      grid-row-start: 3;
-      grid-row-end: 5; }
     .game__player-four {
       grid-column-start: 1;
       grid-column-end: 1;

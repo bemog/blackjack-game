@@ -1,4 +1,4 @@
-@import "_config.scss";
+@import '_config.scss';
 
 body {
   min-height: 100vh;
@@ -13,7 +13,7 @@ body {
   overflow: hidden;
 
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     height: 100%;
     width: 100%;
@@ -46,7 +46,8 @@ body {
 
 .wrapper {
   padding: 10px;
-  height: 800px;
+  max-height: 800px;
+  height: 88vh;
   max-width: 800px;
   width: 90%;
   background-color: rgba(20, 130, 59, 0.1);
@@ -75,7 +76,7 @@ body {
   transition: 0.3s;
 
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     height: 100%;
     width: 100%;
@@ -258,7 +259,7 @@ body {
     &-name {
       position: relative;
       &::after {
-        content: "";
+        content: '';
         position: absolute;
         top: 4px;
         right: -25px;
@@ -480,4 +481,4 @@ body {
   }
 }
 
-@import "_mediaq.scss";
+@import '_mediaq.scss';
