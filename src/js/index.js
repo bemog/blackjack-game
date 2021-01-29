@@ -189,7 +189,13 @@ const setActiveNextPlayer = () => {
 // Pull one card from deck
 const pullOneCard = async () => {
   fetch(`https://deckofcardsapi.com/api/deck/${cardsDeckId}/draw/?count=1`)
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.status === 500) {
+        pullOneCard();
+      } else {
+        return response.json();
+      }
+    })
     .then((data) => {
       // Set points value for specific cards
       let points = data.cards[0].value;
